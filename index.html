@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darwin July 2026 — Family Adventures</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root {
+  --sky:    #1A6B8A;
+  --water:  #2496B8;
+  --leaf:   #2A7A4A;
+  --lime:   #5DB053;
+  --sun:    #F0A500;
+  --coral:  #E05A3A;
+  --sand:   #F5EDD0;
+  --cream:  #FDFAF2;
+  --dark:   #1C2B2D;
+  --mid:    #4A6068;
+  --light:  #D8EDF2;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--cream); color:var(--dark); font-family:'Figtree',sans-serif; font-weight:300; line-height:1.65; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #0D4D68 0%, #1A6B8A 40%, #2A8A5A 100%);
+  padding: 56px 32px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 85% 20%, rgba(240,165,0,0.25) 0%, transparent 50%),
+              radial-gradient(ellipse at 10% 90%, rgba(93,176,83,0.2) 0%, transparent 45%);
+}
+.hero::after {
+  content:'';
+  position:absolute; bottom:-1px; left:0; right:0; height:40px;
+  background: var(--cream);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.hero-inner { position:relative; max-width:900px; margin:0 auto; }
+.hero-tag {
+  display:inline-block;
+  font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--sun); margin-bottom:16px;
+  border:1px solid rgba(240,165,0,0.4); border-radius:20px; padding:4px 14px;
+}
+.hero h1 {
+  font-family:'Fraunces',serif; font-size:clamp(36px,6vw,68px);
+  font-weight:900; color:white; line-height:1.0; margin-bottom:10px;
+}
+.hero h1 span { color:var(--sun); font-style:italic; }
+.hero-sub { font-size:16px; color:rgba(255,255,255,0.7); margin-bottom:24px; font-weight:300; }
+.hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
+.pill {
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);
+  border-radius:20px; padding:6px 14px;
+  font-size:12px; color:rgba(255,255,255,0.85); font-weight:500;
+}
+
+/* ── TRIP CARDS (main nav) ── */
+.trips-nav {
+  max-width:900px; margin:0 auto; padding:32px 24px 0;
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+}
+.trip-card {
+  border-radius:14px; padding:22px 24px; cursor:pointer;
+  border:2px solid transparent; transition:all 0.2s;
+  position:relative; overflow:hidden;
+}
+.trip-card::before {
+  content:''; position:absolute; inset:0; opacity:0.08;
+  background: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 50%);
+  background-size:8px 8px;
+}
+.trip-card.kakadu { background:linear-gradient(135deg, #0D5C3A, #1A7A52); color:white; }
+.trip-card.katherine { background:linear-gradient(135deg, #0A4A68, #1A6B8A); color:white; }
+.trip-card.active { border-color:var(--sun); box-shadow:0 0 0 4px rgba(240,165,0,0.15); }
+.trip-card h2 { font-family:'Fraunces',serif; font-size:22px; font-weight:700; margin-bottom:4px; position:relative; }
+.trip-card p { font-size:13px; opacity:0.75; position:relative; }
+.trip-icon { font-size:32px; margin-bottom:10px; }
+
+/* ── MAIN ── */
+.main { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.trip-section { display:none; }
+.trip-section.active { display:block; }
+
+/* ── TABS within each trip ── */
+.tab-row {
+  display:flex; gap:0; border-bottom:2px solid rgba(26,107,138,0.15);
+  margin-bottom:24px; overflow-x:auto; scrollbar-width:none;
+}
+.tab-row::-webkit-scrollbar { display:none; }
+.tab-btn {
+  font-family:'Figtree',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--mid); background:none; border:none;
+  padding:10px 18px; cursor:pointer; white-space:nowrap;
+  border-bottom:2px solid transparent; margin-bottom:-2px;
+  transition:all 0.2s;
+}
+.tab-btn:hover { color:var(--sky); }
+.tab-btn.active { color:var(--sky); border-bottom-color:var(--sky); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── SECTION HEADING ── */
+.sh { font-family:'Fraunces',serif; font-size:26px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+.ss { font-size:14px; color:var(--mid); margin-bottom:22px; }
+.divider { height:1px; background:rgba(26,107,138,0.12); margin:24px 0; }
+h4 { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--sky); margin:20px 0 10px; }
+h4:first-child { margin-top:0; }
+
+/* ── ALERTS ── */
+.alert {
+  border-radius:10px; padding:14px 16px; margin-bottom:14px;
+  font-size:13.5px; display:flex; gap:12px; align-items:flex-start;
+}
+.alert-sky   { background:rgba(26,107,138,0.08); border-left:3px solid var(--sky); }
+.alert-sun   { background:rgba(240,165,0,0.1); border-left:3px solid var(--sun); }
+.alert-coral { background:rgba(224,90,58,0.08); border-left:3px solid var(--coral); }
+.alert-leaf  { background:rgba(42,122,74,0.08); border-left:3px solid var(--leaf); }
+.alert-icon  { font-size:18px; flex-shrink:0; }
+.alert em    { font-style:normal; font-weight:600; }
+
+/* ── CARDS ── */
+.card {
+  background:white; border-radius:12px;
+  border:1px solid rgba(26,107,138,0.1);
+  box-shadow:0 2px 12px rgba(26,107,138,0.06);
+  margin-bottom:16px; overflow:hidden;
+}
+.card-header {
+  padding:16px 20px 14px; display:flex; align-items:center;
+  gap:14px; cursor:pointer; user-select:none;
+}
+.card-icon { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.card-header h3 { font-family:'Fraunces',serif; font-size:17px; font-weight:700; flex:1; }
+.card-header .toggle { font-size:16px; color:var(--mid); transition:transform 0.2s; }
+.card-header.open .toggle { transform:rotate(180deg); }
+.card-body { padding:0 20px 18px; display:none; border-top:1px solid rgba(26,107,138,0.08); padding-top:14px; }
+.card-body.open { display:block; }
+.card-body p { font-size:13.5px; color:var(--mid); margin-bottom:10px; }
+.card-body p:last-child { margin-bottom:0; }
+.card-body strong { color:var(--dark); font-weight:600; }
+
+/* ── DAY ENTRIES ── */
+.day-entry { display:grid; grid-template-columns:52px 1fr; gap:0 14px; }
+.day-col { display:flex; flex-direction:column; align-items:center; padding-top:16px; }
+.day-dot {
+  width:34px; height:34px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; z-index:1;
+}
+.day-line { flex:1; width:2px; background:rgba(26,107,138,0.1); margin-top:4px; min-height:16px; }
+.day-content { padding:12px 0 20px; border-bottom:1px dashed rgba(26,107,138,0.1); }
+.day-entry:last-child .day-content { border-bottom:none; }
+.day-title { font-family:'Fraunces',serif; font-size:17px; font-weight:700; margin-bottom:2px; }
+.day-date { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--water); margin-bottom:8px; }
+.day-desc { font-size:13.5px; color:var(--mid); }
+.tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.tag { font-size:10px; font-weight:600; padding:3px 9px; border-radius:12px; letter-spacing:0.04em; }
+.t-swim  { background:rgba(36,150,184,0.12); color:var(--sky); }
+.t-art   { background:rgba(42,122,74,0.12); color:var(--leaf); }
+.t-food  { background:rgba(240,165,0,0.15); color:#8A5A00; }
+.t-kids  { background:rgba(224,90,58,0.1); color:var(--coral); }
+.t-book  { background:rgba(26,107,138,0.1); color:var(--sky); border:1px solid rgba(26,107,138,0.2); }
+.t-free  { background:rgba(93,176,83,0.12); color:#2A6A25; }
+.t-camp  { background:rgba(26,107,138,0.08); color:var(--mid); }
+.t-drive { background:rgba(28,43,45,0.08); color:var(--dark); }
+
+/* ── STAT GRID ── */
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-bottom:24px; }
+.stat {
+  background:white; border-radius:10px; padding:14px 16px; text-align:center;
+  border:1px solid rgba(26,107,138,0.1); box-shadow:0 2px 8px rgba(26,107,138,0.05);
+}
+.stat-n { font-family:'Fraunces',serif; font-size:26px; font-weight:900; color:var(--sky); line-height:1; }
+.stat-l { font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); margin-top:3px; }
+
+/* ── BOOKING TABLE ── */
+.bt { width:100%; border-collapse:collapse; font-size:13px; }
+.bt th { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; text-align:left; color:var(--sky); padding:8px 10px; background:rgba(26,107,138,0.05); border-bottom:1px solid rgba(26,107,138,0.15); }
+.bt td { padding:10px 10px; border-bottom:1px dashed rgba(26,107,138,0.08); color:var(--mid); vertical-align:top; }
+.bt tr:last-child td { border-bottom:none; }
+.bt td strong { color:var(--dark); font-weight:600; }
+.p-now  { color:var(--coral); font-weight:700; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; }
+.p-soon { color:var(--sun); font-weight:700; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; }
+.p-pre  { color:var(--leaf); font-weight:700; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; }
+
+/* ── CHECKLIST ── */
+.cl { list-style:none; }
+.cl li { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px dashed rgba(26,107,138,0.08); font-size:13.5px; color:var(--mid); }
+.cl li:last-child { border-bottom:none; }
+.cl input[type=checkbox] { width:16px; height:16px; margin-top:2px; flex-shrink:0; accent-color:var(--sky); cursor:pointer; }
+.cl label { cursor:pointer; }
+.cl input:checked + label { text-decoration:line-through; opacity:0.4; }
+.cl .cat { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--sky); padding:16px 0 4px; border-bottom:none; }
+
+/* ── PLAIN LIST ── */
+ul.pl { list-style:none; padding:0; }
+ul.pl li { font-size:13.5px; color:var(--mid); padding:5px 0; border-bottom:1px dashed rgba(26,107,138,0.08); display:flex; gap:8px; }
+ul.pl li::before { content:'→'; color:var(--water); flex-shrink:0; }
+ul.pl li:last-child { border-bottom:none; }
+
+/* ── BUDGET ── */
+.budget-hero {
+  background:linear-gradient(135deg, var(--dark), #2A4A55);
+  border-radius:12px; padding:22px 24px; margin:16px 0 24px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+}
+.bh-total { font-family:'Fraunces',serif; font-size:44px; font-weight:900; color:var(--sun); line-height:1; }
+.bh-label { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:5px; }
+.bh-sub { font-size:11px; color:rgba(255,255,255,0.35); margin-top:4px; }
+.bh-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.bh-cell { background:rgba(255,255,255,0.07); border-radius:8px; padding:12px 14px; text-align:center; }
+.bh-val { font-family:'Fraunces',serif; font-size:20px; font-weight:700; line-height:1; }
+.bh-key { font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-top:3px; }
+
+.sl-block label { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--sky); display:block; margin-bottom:8px; }
+.sl-row { display:flex; align-items:center; gap:12px; }
+.sl-row input[type=range] { flex:1; accent-color:var(--sky); }
+.sl-row span { font-family:'Fraunces',serif; font-size:16px; font-weight:700; min-width:55px; }
+.sl-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:4px; }
+
+/* ── MAP ── */
+#kmap, #kamap { height:400px; width:100%; background:#d4e8e8; border-radius:10px; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .trips-nav { grid-template-columns:1fr; }
+  .sl-grid { grid-template-columns:1fr; }
+  .bh-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Family Adventures · July 2026</div>
+    <h1>Darwin with the<br><span>Salama Family</span></h1>
+    <div class="hero-sub">2 July – 20 July 2026 · Based in Nakara · Two day trips from home base</div>
+    <div class="hero-pills">
+      <span class="pill">🐊 Kakadu National Park</span>
+      <span class="pill">🏞 Katherine Gorge</span>
+      <span class="pill">Sealed roads only</span>
+      <span class="pill">No permits needed</span>
+      <span class="pill">Mixed family group</span>
+    </div>
+  </div>
+</div>
+
+<!-- TRIP SELECTOR -->
+<div class="trips-nav">
+  <div class="trip-card kakadu active" onclick="selectTrip('kakadu',this)">
+    <div class="trip-icon">🐊</div>
+    <h2>Kakadu</h2>
+    <p>3–4 nights · Jabiru + Cooinda · Yellow Water · Rock Art · Swimming</p>
+  </div>
+  <div class="trip-card katherine" onclick="selectTrip('katherine',this)">
+    <div class="trip-icon">🏞</div>
+    <h2>Katherine Gorge</h2>
+    <p>2 nights · Nitmiluk · Gorge walks · Canoeing · Edith Falls</p>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ════════════════════════════════════════ KAKADU TRIP -->
+<div class="trip-section active" id="kakadu">
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="showTab(event,'k')">Overview</button>
+    <button class="tab-btn" onclick="showTab(event,'k')">Itinerary</button>
+    <button class="tab-btn" onclick="showTab(event,'k')">Map</button>
+    <button class="tab-btn" onclick="showTab(event,'k')">Bookings</button>
+    <button class="tab-btn" onclick="showTab(event,'k')">Budget</button>
+    <button class="tab-btn" onclick="showTab(event,'k')">Packing</button>
+  </div>
+
+  <!-- KAKADU: OVERVIEW -->
+  <div class="tab-content active" id="k-0">
+    <div class="sh">Kakadu National Park</div>
+    <p class="ss">3–4 nights from Darwin. Entirely sealed roads. No permits. World Heritage listed. <strong>Book immediately — July school holidays are peak season and Kakadu fills fast.</strong></p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n">3–4</div><div class="stat-l">nights</div></div>
+      <div class="stat"><div class="stat-n">300</div><div class="stat-l">km Darwin</div></div>
+      <div class="stat"><div class="stat-n">~3.5</div><div class="stat-l">hrs drive</div></div>
+      <div class="stat"><div class="stat-n">0</div><div class="stat-l">permits needed</div></div>
+    </div>
+
+    <div class="alert alert-coral">
+      <div class="alert-icon">🔴</div>
+      <div><em>Book now — do not wait.</em> July is peak season in Kakadu. Cooinda Lodge and Mercure Crocodile Hotel fill weeks ahead. Campgrounds book out. If you're visiting in early July, accommodation needs to be locked in today.</div>
+    </div>
+
+    <div class="alert alert-sky">
+      <div class="alert-icon">💡</div>
+      <div><em>The game plan:</em> Base night 1–2 in Jabiru (northern Kakadu) for Ubirr and Nourlangie rock art, then drive south to Cooinda for nights 3–4 for Yellow Water, Maguk swimming and the Warradjan Cultural Centre. This covers the whole park without doubling back.</div>
+    </div>
+
+    <div class="alert alert-leaf">
+      <div class="alert-icon">✓</div>
+      <div><em>Perfect for mixed ages.</em> Kakadu has something for everyone — easy walks with big payoff, spectacular wildlife, world-class rock art, real swimming holes. Kids love the croc spottings. The Mercure Crocodile Hotel in Jabiru is shaped like a saltwater crocodile — kids are immediately obsessed.</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="sh" style="font-size:20px;margin-bottom:6px;">Key highlights</div>
+
+    <div class="card">
+      <div class="card-header open" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(36,150,184,0.12)">🎨</div>
+        <h3>Ubirr Rock Art + Sunset Escarpment</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body open">
+        <p>One of Australia's finest accessible rock art galleries — X-ray fish, turtles, Mimi spirits, all painted over thousands of years by the Bininj/Mungguy people. The walk through the galleries takes about 45 minutes. Then climb up to the lookout for the single best sunset view in the Northern Territory — the Arnhem Land escarpment stretching away to the horizon, the floodplains turning golden. Arrive 1.5 hours before sunset to walk the art first. This is non-negotiable — do it on the first afternoon.</p>
+        <p><strong>Distance from Jabiru:</strong> 40 km sealed. <strong>Walk:</strong> 1 km easy circuit. <strong>Cost:</strong> Included in park pass. <strong>Kids rating:</strong> ★★★★★ — Lewis and Reuben have done this and love it.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(240,165,0,0.12)">🐊</div>
+        <h3>Yellow Water Billabong Cruise</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>The iconic Kakadu experience. A 90-minute cruise on Yellow Water Billabong at dawn or dusk — saltwater crocodiles, jabiru storks, sea eagles, magpie geese by the thousands. The sunrise cruise is the best: wildlife at its most active, extraordinary light. Book the 6am or 6:30am departure. <strong>Book before you leave Darwin — this fills out weeks ahead.</strong></p>
+        <p><strong>Cost:</strong> ~$80 adult · ~$40 child (5–15). <strong>Location:</strong> Cooinda Lodge. <strong>Duration:</strong> 90 min. Kids absolutely love this — crocs right next to the boat.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(42,122,74,0.12)">🎨</div>
+        <h3>Nourlangie (Burrungkuy) Rock Art</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>The second great rock art site — includes Namarrgon (Lightning Man), one of Kakadu's most famous and significant paintings. The 1.5 km circuit walk is manageable for all ages. The rock formations themselves are spectacular. <strong>Do this on the way from Jabiru to Cooinda.</strong></p>
+        <p><strong>Distance from Jabiru:</strong> 30 km sealed. <strong>Cost:</strong> Included in park pass.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(36,150,184,0.12)">💧</div>
+        <h3>Maguk (Barramundi Gorge) — swim</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>A waterfall tumbling into a deep, clear pandanus-lined pool. <strong>One of the best swimming holes in Australia.</strong> The walk in (2 km return) is through monsoon forest — stunning. Croc-free (rangers confirm). Bring snorkels. Arrive before 9am to beat the crowd. <strong>4WD and the Cub Escape can access this — it's 12 km unsealed from the Kakadu Highway.</strong></p>
+        <p><strong>Distance from Cooinda:</strong> 25 km (12 km unsealed). <strong>Cost:</strong> Included in park pass. Kids' favourite swim in Kakadu.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(42,122,74,0.12)">🌀</div>
+        <h3>Warradjan Aboriginal Cultural Centre</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>Right next to Cooinda Lodge — free with park pass entry. Excellent interactive displays developed by the Bininj/Mungguy traditional owners. 65,000 years of human history brought to life. Saturday and Sunday morning free workshops — weaving, damper making, bush food stories with traditional owners. For the extended family group, this is one of the most meaningful 90 minutes in Kakadu.</p>
+        <p><strong>Cost:</strong> Free with Kakadu Park Pass. Open daily 9am–5pm.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(36,150,184,0.12)">💧</div>
+        <h3>Gunlom (Waterfall Creek) — infinity pools</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>The most photogenic spot in Kakadu — tiered waterfall into a plunge pool, and infinity pools at the top with views across the escarpment. The upper pool walk is 2.8 km return and worth every step. <strong>If doing a 4th night, base at Mary River Roadhouse for Gunlom access.</strong> 33 km unsealed from Kakadu Highway. Croc-free. Arrive early.</p>
+        <p><strong>Distance from Cooinda:</strong> ~45 km (33 km unsealed). 4WD required. Cost: included in park pass.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KAKADU: ITINERARY -->
+  <div class="tab-content" id="k-1">
+    <div class="sh">3-Night Kakadu Itinerary</div>
+    <p class="ss">From Nakara. All sealed roads except Maguk (12 km unsealed, 4WD). Suggested dates: 4–7 July or 11–14 July.</p>
+
+    <div class="alert alert-sun">
+      <div class="alert-icon">📅</div>
+      <div><em>When to go:</em> Avoid the first 2 July weekend if possible — the whole of Darwin heads to Kakadu then. <strong>4–8 July or 11–15 July</strong> are better windows within the family visit. Discuss with Tina and the Salama family to coordinate which days work.</div>
+    </div>
+
+    <div class="card" style="padding:0">
+     <div style="padding:18px 20px 4px">
+
+      <!-- D1 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0D5C3A,#2A7A52);color:white">D1</div>
+          <div class="day-line"></div>
+        </div>
+        <div class="day-content">
+          <div class="day-date">Day 1 · ~3.5 hr drive from Nakara</div>
+          <div class="day-title">Nakara → Jabiru — Ubirr at Sunset</div>
+          <div class="day-desc">Depart Nakara by 2pm. Stuart Highway south to Arnhem Highway, east into Kakadu. Stop at <strong>Bowali Visitor Centre</strong> on arrival in Jabiru — pick up park passes (or buy online before you leave), great free introductory displays, kids' activity sheets. Check in to accommodation. Then straight to <strong>Ubirr</strong> — arrive 90 min before sunset, walk the rock art galleries, climb to the escarpment lookout. The whole family will be speechless. Dinner at Jabiru.</div>
+          <div class="tags"><span class="tag t-art">Ubirr sunset</span><span class="tag t-kids">Bowali Visitor Centre</span><span class="tag t-book">Accommodation pre-booked</span><span class="tag t-drive">~3.5 hrs Nakara → Jabiru</span></div>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0D5C3A,#2A7A52);color:white">D2</div>
+          <div class="day-line"></div>
+        </div>
+        <div class="day-content">
+          <div class="day-date">Day 2 · Jabiru → Cooinda (50 km south, 1 hr)</div>
+          <div class="day-title">Nourlangie Rock Art → Cooinda</div>
+          <div class="day-desc">Morning: <strong>Nourlangie (Burrungkuy)</strong> — 1.5 km rock art walk including Lightning Man. Then drive south to Cooinda for check-in. Afternoon: <strong>Warradjan Cultural Centre</strong> (free, next to the lodge, genuinely excellent for all ages — if it's a weekend morning there may be a free workshop). Swim in the Cooinda Lodge pool. Sunset stroll along the Yellow Water billabong edge. Book tomorrow's dawn cruise at the lodge desk if you haven't already.</div>
+          <div class="tags"><span class="tag t-art">Nourlangie rock art</span><span class="tag t-art">Warradjan Cultural Centre</span><span class="tag t-swim">Cooinda pool</span><span class="tag t-camp">Check in Cooinda</span></div>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0D5C3A,#2A7A52);color:white">D3</div>
+          <div class="day-line"></div>
+        </div>
+        <div class="day-content">
+          <div class="day-date">Day 3 · Big day — dawn cruise + Maguk swim</div>
+          <div class="day-title">Yellow Water Dawn Cruise → Maguk</div>
+          <div class="day-desc">Up at 5:30am for the <strong>6am or 6:30am Yellow Water Dawn Cruise</strong> — crocs, sea eagles, jabiru storks, magpie geese in extraordinary numbers at dawn. Breakfast at the Cooinda Barra Bistro. Then drive to <strong>Maguk (Barramundi Gorge)</strong> — 25 km from Cooinda, final 12 km unsealed (4WD). 2 km walk through monsoon forest to a waterfall and deep clear pool. Arrive before 10am to beat the crowd. Spend the morning swimming. This is the best family day in Kakadu. Back to Cooinda for a late lunch and pool afternoon.</div>
+          <div class="tags"><span class="tag t-kids">Dawn croc cruise ★★★★★</span><span class="tag t-swim">Maguk — best swim in Kakadu</span><span class="tag t-book">Cruise pre-booked</span><span class="tag t-kids">4WD required for Maguk</span></div>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0D5C3A,#2A7A52);color:white">D4</div>
+          <div class="day-line" style="min-height:0"></div>
+        </div>
+        <div class="day-content" style="border-bottom:none">
+          <div class="day-date">Day 4 · Return to Nakara</div>
+          <div class="day-title">Slow morning → Drive home</div>
+          <div class="day-desc">Slow Cooinda morning — last swim in the pool, browse the general store. Optional: <strong>Mamukala Wetlands</strong> birdwatching stop on the Arnhem Highway (~20 min, excellent for kids with binoculars, hundreds of magpie geese). Then Stuart Highway north, home to Nakara by mid-afternoon. 3 nights, unforgettable. The kids will want to come back.</div>
+          <div class="tags"><span class="tag t-free">Mamukala optional bird stop</span><span class="tag t-drive">~3.5 hrs Cooinda → Nakara</span></div>
+        </div>
+      </div>
+
+     </div>
+    </div>
+
+    <div class="alert alert-leaf" style="margin-top:14px">
+      <div class="alert-icon">+</div>
+      <div><em>Adding a 4th night for Gunlom:</em> Base night 3 at Mary River Roadhouse instead of Cooinda, then do Gunlom in the morning (33 km unsealed, 4WD, infinity pools) before driving home. Adds the most photogenic spot in Kakadu to the trip.</div>
+    </div>
+  </div>
+
+  <!-- KAKADU: MAP -->
+  <div class="tab-content" id="k-2">
+    <div class="sh">Kakadu Route Map</div>
+    <p class="ss">From Nakara. All sealed except Maguk and Gunlom. Click markers for details.</p>
+    <div style="border-radius:10px;overflow:hidden;margin-bottom:16px;border:1px solid rgba(26,107,138,0.15)">
+      <div id="kmap"></div>
+    </div>
+    <script>
+    (function(){
+      function initKmap(){
+        if(typeof L==='undefined'){setTimeout(initKmap,200);return;}
+        var m=L.map('kmap',{zoomControl:true,scrollWheelZoom:false}).setView([-13.0,132.5],8);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:13,attribution:'© OpenStreetMap'}).addTo(m);
+        function ic(col,sz){
+          sz=sz||11;
+          return L.divIcon({className:'',
+            html:'<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+col+';border:2.5px solid white;box-shadow:0 1px 5px rgba(0,0,0,0.3)"></div>',
+            iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-2]});
+        }
+        // Route
+        L.polyline([[-12.46,130.84],[-12.59,131.28],[-12.67,132.00],[-12.67,132.92]],{color:'#1A6B8A',weight:3,dashArray:'7 4',opacity:0.8}).addTo(m);
+        L.polyline([[-12.67,132.92],[-12.82,132.46],[-13.05,132.25]],{color:'#2A7A52',weight:3.5,opacity:0.85}).addTo(m);
+        L.polyline([[-13.05,132.25],[-13.38,132.59]],{color:'#2A7A52',weight:2.5,dashArray:'5 4',opacity:0.7}).addTo(m);
+        L.polyline([[-13.05,132.25],[-13.56,132.51]],{color:'#5DB053',weight:2,dashArray:'4 4',opacity:0.6}).addTo(m);
+        var stops=[
+          {ll:[-12.46,130.84],col:'#1C2B2D',sz:14,n:'Nakara, Darwin',i:'Home base · Depart D1 afternoon'},
+          {ll:[-12.67,132.92],col:'#1A6B8A',sz:13,n:'Jabiru',i:'D1 night · Ubirr sunset · Bowali Visitor Centre · Mercure Croc Hotel'},
+          {ll:[-12.40,132.95],col:'#2A7A52',sz:11,n:'Ubirr Rock Art',i:'D1 afternoon · Rock art galleries + escarpment sunset lookout'},
+          {ll:[-12.85,132.46],col:'#2A7A52',sz:11,n:'Nourlangie (Burrungkuy)',i:'D2 morning · Lightning Man · 1.5 km circuit walk'},
+          {ll:[-13.05,132.25],col:'#0D5C3A',sz:14,n:'Cooinda Lodge',i:'D2–D3 night · Yellow Water · Warradjan Centre · pool · restaurant'},
+          {ll:[-13.25,132.35],col:'#2A7A52',sz:11,n:'Yellow Water Billabong',i:'D3 dawn · croc cruise · book ahead'},
+          {ll:[-13.38,132.59],col:'#1A6B8A',sz:12,n:'Maguk (Barramundi Gorge)',i:'D3 · best family swim · 12 km unsealed · croc-free'},
+          {ll:[-13.56,132.51],col:'#5DB053',sz:10,n:'Gunlom (optional D4)',i:'Optional 4th night · infinity pools · 33 km unsealed · spectacular'},
+        ];
+        stops.forEach(function(s){
+          L.marker(s.ll,{icon:ic(s.col,s.sz)})
+           .bindPopup('<strong style="font-family:sans-serif;font-size:13px">'+s.n+'</strong><br><span style="font-family:sans-serif;font-size:11px;color:#555">'+s.i+'</span>')
+           .addTo(m);
+        });
+        var leg=L.control({position:'bottomleft'});
+        leg.onAdd=function(){
+          var d=L.DomUtil.create('div');
+          d.style.cssText='background:rgba(255,255,255,0.95);padding:8px 12px;border-radius:8px;font-family:sans-serif;font-size:10px;line-height:1.9;box-shadow:0 1px 5px rgba(0,0,0,0.15)';
+          d.innerHTML='<b>KAKADU ROUTE</b><br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#1A6B8A;vertical-align:middle;margin-right:5px"></span>Darwin → Jabiru (sealed)<br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#2A7A52;vertical-align:middle;margin-right:5px"></span>Jabiru → Cooinda (sealed)<br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#5DB053;vertical-align:middle;margin-right:5px"></span>Optional Gunlom (unsealed)<br>'
+           +'<span style="color:#888;font-size:9px">Click markers for details</span>';
+          return d;
+        };
+        leg.addTo(m);
+      }
+      setTimeout(initKmap,400);
+    })();
+    </script>
+
+    <div class="card" style="overflow:auto">
+      <table class="bt">
+        <thead><tr><th>Stop</th><th>Day</th><th>Distance</th><th>Road</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nakara</strong></td><td>D1 depart 2pm</td><td>—</td><td>—</td><td>Fill fuel before leaving</td></tr>
+          <tr><td><strong>Jabiru</strong></td><td>D1</td><td>~300 km</td><td>All sealed</td><td>1 night. Ubirr at sunset.</td></tr>
+          <tr><td><strong>Ubirr</strong></td><td>D1 afternoon</td><td>40 km from Jabiru</td><td>Sealed</td><td>Free with park pass</td></tr>
+          <tr><td><strong>Nourlangie</strong></td><td>D2 morning</td><td>30 km from Jabiru</td><td>Sealed</td><td>1.5 km walk, Lightning Man</td></tr>
+          <tr><td><strong>Cooinda Lodge</strong></td><td>D2–D3</td><td>50 km from Jabiru</td><td>Sealed</td><td>2 nights. Pool, restaurant.</td></tr>
+          <tr><td><strong>Yellow Water</strong></td><td>D3 dawn</td><td>Walk from Cooinda</td><td>—</td><td>Pre-book. 6am cruise.</td></tr>
+          <tr><td><strong>Maguk</strong></td><td>D3 morning</td><td>25 km from Cooinda</td><td>12 km unsealed</td><td>4WD. Best swim in Kakadu.</td></tr>
+          <tr><td><strong>Gunlom (optional)</strong></td><td>D4 if 4 nights</td><td>~45 km from Cooinda</td><td>33 km unsealed</td><td>4WD. Infinity pools.</td></tr>
+          <tr><td><strong>Nakara</strong></td><td>D4 afternoon</td><td>~250 km Cooinda</td><td>Sealed</td><td>Home by mid-afternoon</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KAKADU: BOOKINGS -->
+  <div class="tab-content" id="k-3">
+    <div class="sh">Kakadu Bookings</div>
+    <p class="ss">July is peak season. Book every item below before the family arrives on 2 July.</p>
+
+    <div class="alert alert-coral">
+      <div class="alert-icon">🔴</div>
+      <div><em>Book today.</em> The Mercure Crocodile Hotel, Cooinda Lodge rooms and Yellow Water Dawn Cruises regularly sell out 4–6 weeks ahead during July school holidays. Campsites at Cooinda fill almost as fast.</div>
+    </div>
+
+    <div class="card" style="overflow:auto;margin-top:14px">
+      <table class="bt">
+        <thead><tr><th>Item</th><th>Priority</th><th>Where to Book</th><th>Cost Est.</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Kakadu Park Pass</strong><br>Required for entry — all ages 5+</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Online at <strong>parksaustralia.gov.au/kakadu</strong>. NT residents free — confirm status. Family pass (2A+2C) available. Buy before you go — also available at Bowali Visitor Centre on arrival.</td>
+            <td>NT residents: free<br>Interstate adult: ~$40</td>
+          </tr>
+          <tr>
+            <td><strong>Jabiru Accommodation (Night 1)</strong><br>Mercure Kakadu Crocodile Hotel or Anbinik Resort</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Mercure: <strong>accor.com</strong> or (08) 8979 9000. Anbinik (cheaper, cabins + camping): <strong>anbinik.com.au</strong>. Mercure is the family pick — kids love the croc-shaped building. Anbinik is better value for a larger group.</td>
+            <td>Mercure: ~$250–350/night<br>Anbinik cabin: ~$130–180</td>
+          </tr>
+          <tr>
+            <td><strong>Cooinda Lodge (Nights 2–3)</strong><br>Central Kakadu — best base for Yellow Water</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Book direct at <strong>kakadutourism.com</strong>. Options: lodge rooms (~$260/night), outback retreat glamping tents (~$200), powered campsites (~$50/night). Family rooms sleep 4. Pool, restaurant, general store on site.</td>
+            <td>Lodge room: ~$260/night<br>Powered camp: ~$50/night</td>
+          </tr>
+          <tr>
+            <td><strong>Yellow Water Dawn Cruise</strong><br>6am or 6:30am departure from Cooinda</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Book at <strong>kakadutourism.com</strong> or call (08) 8979 0145. Dawn cruise is best — sunset cruise is second. 90 minutes. Gets very full in July.</td>
+            <td>Adult: ~$80 · Child (5–15): ~$40</td>
+          </tr>
+          <tr>
+            <td><strong>Bowali Visitor Centre passes</strong><br>Can buy on arrival as backup</td>
+            <td><span class="p-soon">SOON</span></td>
+            <td>Park passes available at Bowali on arrival if you haven't pre-purchased online. Pick up free kids' activity sheets and the Kakadu map here — excellent orientation for the family.</td>
+            <td>Same as park pass</td>
+          </tr>
+          <tr>
+            <td><strong>Warradjan Cultural Centre workshops</strong><br>Sat/Sun mornings — weaving, damper, bush food</td>
+            <td><span class="p-pre">PRE-TRIP</span></td>
+            <td>Free, no booking needed. Just show up Saturday or Sunday morning at Warradjan (next to Cooinda Lodge). Check with lodge on arrival for current schedule.</td>
+            <td>Free</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KAKADU: BUDGET -->
+  <div class="tab-content" id="k-4">
+    <div class="sh">Kakadu Budget</div>
+    <p class="ss">Estimate for 2 adults + 2 kids (Lewis & Reuben). Adjust sliders for your group size and accommodation choice.</p>
+
+    <div class="card">
+      <div class="card-header open" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(240,165,0,0.12)">🎚</div>
+        <h3>Adjust for your group</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="sl-grid">
+          <div class="sl-block">
+            <label>Number of Adults</label>
+            <div class="sl-row">
+              <input type="range" id="ka-adults" min="2" max="10" value="4" step="1" oninput="document.getElementById('ka-al').textContent=this.value+' adults';calcKBudget();">
+              <span id="ka-al">4 adults</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Number of Kids (5–15)</label>
+            <div class="sl-row">
+              <input type="range" id="ka-kids" min="0" max="8" value="3" step="1" oninput="document.getElementById('ka-kl').textContent=this.value+' kids';calcKBudget();">
+              <span id="ka-kl">3 kids</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Accommodation style</label>
+            <div class="sl-row">
+              <input type="range" id="ka-acc" min="1" max="3" value="2" step="1" oninput="document.getElementById('ka-acl').textContent=['','Budget camp','Lodge rooms','Mercure+Lodge'][this.value];calcKBudget();">
+              <span id="ka-acl">Lodge rooms</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Nights (3 or 4)</label>
+            <div class="sl-row">
+              <input type="range" id="ka-nights" min="3" max="4" value="3" step="1" oninput="document.getElementById('ka-nl').textContent=this.value+' nights';calcKBudget();">
+              <span id="ka-nl">3 nights</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="budget-hero">
+      <div>
+        <div class="bh-label">Estimated Total</div>
+        <div id="k-grand" class="bh-total">$1,840</div>
+        <div class="bh-sub">Kakadu · 3 nights · 4 adults + 3 kids</div>
+      </div>
+      <div class="bh-grid">
+        <div class="bh-cell"><div id="k-accom" class="bh-val" style="color:#F0A500">$780</div><div class="bh-key">Accommodation</div></div>
+        <div class="bh-cell"><div id="k-passes" class="bh-val" style="color:#5DB053">$280</div><div class="bh-key">Passes + Cruise</div></div>
+        <div class="bh-cell"><div id="k-food" class="bh-val" style="color:#2496B8">$480</div><div class="bh-key">Food</div></div>
+        <div class="bh-cell"><div id="k-fuel" class="bh-val" style="color:#E05A3A">$180</div><div class="bh-key">Fuel + Misc</div></div>
+      </div>
+    </div>
+
+    <div class="alert alert-leaf">
+      <div class="alert-icon">💡</div>
+      <div><em>NT resident discount:</em> If the adults are NT residents, Kakadu Park Passes are free — saving ~$40pp. Confirm residency eligibility at parksaustralia.gov.au.</div>
+    </div>
+
+    <script>
+    function calcKBudget(){
+      var adults=parseInt(document.getElementById('ka-adults').value);
+      var kids=parseInt(document.getElementById('ka-kids').value);
+      var accStyle=parseInt(document.getElementById('ka-acc').value);
+      var nights=parseInt(document.getElementById('ka-nights').value);
+      // Accommodation per night (total, group)
+      var accPerNight=[0,50*(adults+kids>6?3:Math.ceil((adults+kids)/4)),200*Math.ceil(adults/2),280*Math.ceil(adults/2)][accStyle];
+      var accom=accPerNight*nights;
+      // Park passes (NT residents free - assume paying)
+      var passes=40*adults+20*kids;
+      // Yellow Water cruise
+      var cruise=80*adults+40*kids;
+      var passTotal=passes+cruise;
+      // Food: $35/adult/day + $20/kid/day
+      var foodDays=nights+1;
+      var food=Math.round((35*adults+20*kids)*foodDays);
+      // Fuel: ~$90 return Darwin-Kakadu
+      var fuel=Math.round(90+30*(nights-3));
+      var sub=accom+passTotal+food+fuel;
+      var cont=Math.round(sub*0.1);
+      var grand=sub+cont;
+      document.getElementById('k-accom').textContent='$'+accom;
+      document.getElementById('k-passes').textContent='$'+passTotal;
+      document.getElementById('k-food').textContent='$'+food;
+      document.getElementById('k-fuel').textContent='$'+(fuel+cont);
+      document.getElementById('k-grand').textContent='$'+grand.toLocaleString();
+      document.querySelector('#k-grand+*+* .bh-sub').textContent='Kakadu · '+nights+' nights · '+adults+' adults + '+kids+' kids';
+    }
+    window.addEventListener('load',calcKBudget);
+    </script>
+  </div>
+
+  <!-- KAKADU: PACKING -->
+  <div class="tab-content" id="k-5">
+    <div class="sh">Kakadu Packing</div>
+    <p class="ss">Sealed road trip — no remote kit needed. Just holiday essentials plus a few Kakadu-specifics.</p>
+
+    <ul class="cl">
+      <li class="cat">— Kakadu Essentials —</li>
+      <li><input type="checkbox" id="p1"><label for="p1">Kakadu Park Passes (buy online before you go — faster than queuing at Bowali)</label></li>
+      <li><input type="checkbox" id="p2"><label for="p2">Yellow Water cruise booking confirmation — printed or saved offline</label></li>
+      <li><input type="checkbox" id="p3"><label for="p3">Binoculars — Mamukala and Yellow Water birdwatching, spectacular in July</label></li>
+      <li><input type="checkbox" id="p4"><label for="p4">Snorkels + goggles — Maguk is crystal clear, great for snorkelling</label></li>
+      <li><input type="checkbox" id="p5"><label for="p5">Rashies / rash shirts for all kids — UV is still high in July, long swims at Maguk</label></li>
+      <li><input type="checkbox" id="p6"><label for="p6">Aqua shoes — Maguk walk is rocky and wet in sections</label></li>
+      <li><input type="checkbox" id="p7"><label for="p7">Insect repellent DEET-based — sandflies and mozzies at billabong camps at dusk</label></li>
+      <li><input type="checkbox" id="p8"><label for="p8">Headlamps × 2 — campground use, evening walks</label></li>
+
+      <li class="cat">— Swimming & Days Out —</li>
+      <li><input type="checkbox" id="p9"><label for="p9">Swimmers × 2 per person — Maguk swim + Cooinda Lodge pool daily</label></li>
+      <li><input type="checkbox" id="p10"><label for="p10">Quick-dry towels × family</label></li>
+      <li><input type="checkbox" id="p11"><label for="p11">Sun hats — broad brim for kids, Kakadu sun is intense even in July</label></li>
+      <li><input type="checkbox" id="p12"><label for="p12">Sunscreen SPF 50+ — reapply after swimming</label></li>
+      <li><input type="checkbox" id="p13"><label for="p13">Daypack with water bottles — 1.5L per person minimum for walks</label></li>
+
+      <li class="cat">— Accommodation & Camp —</li>
+      <li><input type="checkbox" id="p14"><label for="p14">If camping at Cooinda: tent + sleeping gear (unpowered sites available)</label></li>
+      <li><input type="checkbox" id="p15"><label for="p15">Power board / chargers — lodge rooms have limited power points</label></li>
+      <li><input type="checkbox" id="p16"><label for="p16">Cash — Cooinda general store can be slow on EFTPOS</label></li>
+
+      <li class="cat">— For the Kids —</li>
+      <li><input type="checkbox" id="p17"><label for="p17">Bowali Visitor Centre kids activity sheets — pick up on arrival, free</label></li>
+      <li><input type="checkbox" id="p18"><label for="p18">Sketchbook + pencils — rock art is endlessly inspiring to draw</label></li>
+      <li><input type="checkbox" id="p19"><label for="p19">Bird ID guide (Top End) — Mamukala and Yellow Water are extraordinary for spotting</label></li>
+      <li><input type="checkbox" id="p20"><label for="p20">Glow sticks or small torch for the kids — camping nights, early morning cruise walk</label></li>
+    </ul>
+  </div>
+
+</div><!-- end kakadu trip -->
+
+<!-- ════════════════════════════════════════ KATHERINE GORGE TRIP -->
+<div class="trip-section" id="katherine">
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="showTab(event,'ka')">Overview</button>
+    <button class="tab-btn" onclick="showTab(event,'ka')">Itinerary</button>
+    <button class="tab-btn" onclick="showTab(event,'ka')">Map</button>
+    <button class="tab-btn" onclick="showTab(event,'ka')">Bookings</button>
+    <button class="tab-btn" onclick="showTab(event,'ka')">Budget</button>
+    <button class="tab-btn" onclick="showTab(event,'ka')">Packing</button>
+  </div>
+
+  <!-- KATHERINE: OVERVIEW -->
+  <div class="tab-content active" id="ka-0">
+    <div class="sh">Katherine Gorge — Nitmiluk</div>
+    <p class="ss">2 nights from Darwin. 300 km sealed. No permits. One of the NT's great natural wonders — and easy from Nakara.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n">2</div><div class="stat-l">nights</div></div>
+      <div class="stat"><div class="stat-n">300</div><div class="stat-l">km Darwin</div></div>
+      <div class="stat"><div class="stat-n">~3.5</div><div class="stat-l">hrs drive</div></div>
+      <div class="stat"><div class="stat-n">13</div><div class="stat-l">gorges total</div></div>
+    </div>
+
+    <div class="alert alert-sky">
+      <div class="alert-icon">🏞</div>
+      <div><em>What it is:</em> Nitmiluk (Katherine Gorge) is 13 interconnected sandstone gorges carved by the Katherine River through ancient escarpment country. In July the water levels are perfect — deep enough to swim and canoe, not flooded. The Jawoyn people's Country. Managed jointly by Jawoyn and Parks Australia.</div>
+    </div>
+
+    <div class="alert alert-leaf">
+      <div class="alert-icon">✓</div>
+      <div><em>Why it's perfect for the extended family.</em> Katherine has genuinely good infrastructure — Nitmiluk Visitor Centre, guided canoe hire, the gorge cruise, and the town of Katherine itself with a supermarket, good pub and restaurants. Mixed fitness levels are handled easily — you can do a gentle boat cruise or a full 2-gorge walk, depending on the group.</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="sh" style="font-size:20px;margin-bottom:6px;">Key highlights</div>
+
+    <div class="card">
+      <div class="card-header open" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(36,150,184,0.12)">🛶</div>
+        <h3>Canoe the Gorge</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body open">
+        <p>The classic Katherine Gorge experience — paddle through towering sandstone walls into the second gorge, portage over rocks between gorges, swim in the pools. <strong>Half-day or full-day hire available.</strong> Guides available. Lewis and Reuben have done this before and loved it. For the extended family, canoe hire can accommodate large groups — book well ahead in July.</p>
+        <p>Single canoes and double canoes available. Lifejackets provided. The portage between gorges 1 and 2 is a 5-minute scramble over boulders — manageable for all ages but slightly challenging for very young children. Freshwater crocodiles are common — visible basking on rocks. They are harmless.</p>
+        <p><strong>Cost:</strong> ~$50/half day double canoe · ~$80/full day. <strong>Book:</strong> nitmiluk.com.au</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(240,165,0,0.12)">🚢</div>
+        <h3>Gorge Cruise</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>For family members who prefer not to paddle — the 2-hour gorge cruise takes you through the first two gorges by flat-bottomed boat. Excellent commentary on geology and Jawoyn culture. <strong>Good option for grandparents, young kids and those who want the gorge experience without the physical effort.</strong></p>
+        <p><strong>Cost:</strong> ~$55 adult · ~$30 child. <strong>Book:</strong> nitmiluk.com.au</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(42,122,74,0.12)">🥾</div>
+        <h3>Two-Gorge Walk</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>8.4 km return. Moderate. For the fitter members of the group — crosses between gorge 1 and 2 on foot, with spectacular views of the escarpment and swimming in the gorge pools. Lewis and Reuben are well capable of this. Start early (by 7am) to beat the heat. Takes about 3.5 hours return. Bring plenty of water.</p>
+        <p><strong>Cost:</strong> Free with park entry. <strong>Best for:</strong> Anyone reasonably fit — not suitable for small children or those with mobility issues.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(36,150,184,0.12)">💧</div>
+        <h3>Edith Falls (Leliyn)</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>60 km north of Katherine on the Stuart Highway — a beautiful tiered waterfall with a large croc-free swimming pool at the base. <strong>One of the best natural swimming holes in the NT.</strong> Easy 2.6 km walk to the upper pool for a second, quieter swim. Perfect for a hot afternoon on the way home. Stop here on the return trip to Darwin.</p>
+        <p><strong>Cost:</strong> Included in Nitmiluk park pass. <strong>Road:</strong> Sealed all the way, 2WD accessible.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(42,122,74,0.12)">🎨</div>
+        <h3>Nitmiluk Visitor Centre</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <p>Excellent centre presenting Jawoyn culture and the park's geology. Free with park pass. Spend an hour here before heading to the gorge — it meaningfully enriches the whole experience. The Jawoyn connection to the gorge system (Nitmiluk means "cicada dreaming place") is a great entry point for the extended family to understand what they're visiting.</p>
+        <p><strong>Cost:</strong> Free with park entry. Open daily 7am–7pm.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KATHERINE: ITINERARY -->
+  <div class="tab-content" id="ka-1">
+    <div class="sh">2-Night Katherine Itinerary</div>
+    <p class="ss">From Nakara. All sealed road. Suggested dates: 8–10 July or 15–17 July.</p>
+
+    <div class="alert alert-sun">
+      <div class="alert-icon">📅</div>
+      <div><em>Sequencing with Kakadu:</em> Do Kakadu first (4–7 July), then Katherine (8–10 July) — or the other way around. Both are easy day drives from Darwin. They don't overlap in what they offer, so the order doesn't matter much.</div>
+    </div>
+
+    <div class="card" style="padding:0">
+     <div style="padding:18px 20px 4px">
+
+      <!-- D1 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0A4A68,#1A6B8A);color:white">D1</div>
+          <div class="day-line"></div>
+        </div>
+        <div class="day-content">
+          <div class="day-date">Day 1 · Morning departure · ~3.5 hrs</div>
+          <div class="day-title">Nakara → Katherine → Nitmiluk</div>
+          <div class="day-desc">Depart Nakara by 8am. Stuart Highway south. Arrive Katherine by 11:30am — supermarket shop and lunch in town. Drive 30 km east to <strong>Nitmiluk Visitor Centre</strong> — orientation, park passes if not already purchased, Jawoyn cultural displays. Afternoon: <strong>gorge swimming</strong> at the boat ramp area — the clear water with the sandstone walls is immediately stunning. Book canoes for tomorrow at the visitor centre. Check in to Nitmiluk Caravan Park or Katherine town accommodation. Campfire or pub dinner.</div>
+          <div class="tags"><span class="tag t-swim">Gorge afternoon swim</span><span class="tag t-art">Nitmiluk Visitor Centre</span><span class="tag t-book">Book canoes for D2</span><span class="tag t-drive">~3.5 hrs Nakara → Nitmiluk</span></div>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0A4A68,#1A6B8A);color:white">D2</div>
+          <div class="day-line"></div>
+        </div>
+        <div class="day-content">
+          <div class="day-date">Day 2 · Big gorge day</div>
+          <div class="day-title">Canoes + Gorge + Swim + Walk</div>
+          <div class="day-desc">Early start — canoes by 8am before it gets warm. <strong>Split the group:</strong> fitter adults and kids (Lewis, Reuben and others) take canoes into the gorge; grandparents or those preferring comfort do the <strong>2-hour gorge cruise</strong>. Both are excellent. Canoeists paddle into the second gorge for a swim in the deep pools. Portage between gorges takes 5 mins. Regroup for lunch at the visitor centre. Afternoon: fitter members do the <strong>Baruwei Loop</strong> (5.4 km) or the start of the Two-Gorge Walk if legs are good. Sunset drinks at the gorge lookout.</div>
+          <div class="tags"><span class="tag t-swim">2nd gorge swimming</span><span class="tag t-kids">Canoe hire (whole group)</span><span class="tag t-kids">Gorge cruise (easier option)</span><span class="tag t-book">Pre-booked</span></div>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="day-entry">
+        <div class="day-col">
+          <div class="day-dot" style="background:linear-gradient(135deg,#0A4A68,#1A6B8A);color:white">D3</div>
+          <div class="day-line" style="min-height:0"></div>
+        </div>
+        <div class="day-content" style="border-bottom:none">
+          <div class="day-date">Day 3 · Return via Edith Falls</div>
+          <div class="day-title">Slow morning → Edith Falls → Nakara</div>
+          <div class="day-desc">Slow gorge morning — last swim, pack up. Drive north on Stuart Highway, turn off to <strong>Edith Falls (Leliyn)</strong> — 60 km from Katherine, sealed road all the way. The swimming hole at the base is one of the NT's best — croc-free, clear water, easy short walk. Upper pool walk (2.6 km) for those who want it. Lunch at the falls. Then home to Nakara — arrive late afternoon. Two nights, three remarkable gorge experiences, and a family memory that'll last.</div>
+          <div class="tags"><span class="tag t-swim">Edith Falls — best NT swimming hole</span><span class="tag t-free">Free with park pass</span><span class="tag t-drive">Home by late afternoon</span></div>
+        </div>
+      </div>
+
+     </div>
+    </div>
+  </div>
+
+  <!-- KATHERINE: MAP -->
+  <div class="tab-content" id="ka-2">
+    <div class="sh">Katherine Gorge Route Map</div>
+    <p class="ss">Nakara to Katherine — all sealed. Edith Falls is on the return. Click markers for details.</p>
+    <div style="border-radius:10px;overflow:hidden;margin-bottom:16px;border:1px solid rgba(26,107,138,0.15)">
+      <div id="kamap"></div>
+    </div>
+    <script>
+    (function(){
+      function initKAmap(){
+        if(typeof L==='undefined'){setTimeout(initKAmap,200);return;}
+        var m=L.map('kamap',{zoomControl:true,scrollWheelZoom:false}).setView([-13.8,131.8],8);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:13,attribution:'© OpenStreetMap'}).addTo(m);
+        function ic(col,sz){
+          sz=sz||11;
+          return L.divIcon({className:'',
+            html:'<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+col+';border:2.5px solid white;box-shadow:0 1px 5px rgba(0,0,0,0.3)"></div>',
+            iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-2]});
+        }
+        // Route down
+        L.polyline([[-12.46,130.84],[-13.5,131.0],[-14.46,132.27]],{color:'#1A6B8A',weight:3,dashArray:'7 4',opacity:0.8}).addTo(m);
+        // Gorge spur
+        L.polyline([[-14.46,132.27],[-14.47,132.46]],{color:'#0A4A68',weight:3.5,opacity:0.9}).addTo(m);
+        // Return with Edith Falls
+        L.polyline([[-14.47,132.46],[-14.18,131.67],[-12.46,130.84]],{color:'#2496B8',weight:3,dashArray:'6 4',opacity:0.75}).addTo(m);
+        var stops=[
+          {ll:[-12.46,130.84],col:'#1C2B2D',sz:14,n:'Nakara, Darwin',i:'Home base · Depart 8am D1 · Home D3 late afternoon'},
+          {ll:[-14.46,132.27],col:'#0A4A68',sz:12,n:'Katherine Town',i:'D1 · Supermarket + lunch · 300 km from Darwin'},
+          {ll:[-14.47,132.46],col:'#0A4A68',sz:14,n:'Nitmiluk (Katherine Gorge)',i:'D1–D2 · Canoes · Gorge cruise · Two-gorge walk · swimming'},
+          {ll:[-14.18,131.67],col:'#2496B8',sz:12,n:'Edith Falls (Leliyn)',i:'D3 return · Croc-free swimming hole · 60 km from Katherine · sealed road'},
+        ];
+        stops.forEach(function(s){
+          L.marker(s.ll,{icon:ic(s.col,s.sz)})
+           .bindPopup('<strong style="font-family:sans-serif;font-size:13px">'+s.n+'</strong><br><span style="font-family:sans-serif;font-size:11px;color:#555">'+s.i+'</span>')
+           .addTo(m);
+        });
+        var leg=L.control({position:'bottomleft'});
+        leg.onAdd=function(){
+          var d=L.DomUtil.create('div');
+          d.style.cssText='background:rgba(255,255,255,0.95);padding:8px 12px;border-radius:8px;font-family:sans-serif;font-size:10px;line-height:1.9;box-shadow:0 1px 5px rgba(0,0,0,0.15)';
+          d.innerHTML='<b>KATHERINE ROUTE</b><br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#1A6B8A;vertical-align:middle;margin-right:5px"></span>Darwin → Katherine (sealed)<br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#0A4A68;vertical-align:middle;margin-right:5px"></span>Katherine → Nitmiluk<br>'
+           +'<span style="display:inline-block;width:18px;height:2px;background:#2496B8;vertical-align:middle;margin-right:5px"></span>Return via Edith Falls<br>'
+           +'<span style="color:#888;font-size:9px">Click markers for details</span>';
+          return d;
+        };
+        leg.addTo(m);
+      }
+      setTimeout(initKAmap,500);
+    })();
+    </script>
+
+    <div class="card" style="overflow:auto">
+      <table class="bt">
+        <thead><tr><th>Stop</th><th>Day</th><th>Distance</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nakara</strong></td><td>D1 8am depart</td><td>—</td><td>Fuel before leaving</td></tr>
+          <tr><td><strong>Katherine Town</strong></td><td>D1 11:30am</td><td>300 km sealed</td><td>Supermarket + lunch + fuel</td></tr>
+          <tr><td><strong>Nitmiluk Visitor Centre</strong></td><td>D1 afternoon</td><td>30 km from Katherine</td><td>Park passes + canoe booking</td></tr>
+          <tr><td><strong>Nitmiluk gorge + camp</strong></td><td>D1–D2</td><td>—</td><td>2 nights. Gorge swimming, canoe, cruise, walk.</td></tr>
+          <tr><td><strong>Edith Falls (Leliyn)</strong></td><td>D3 morning</td><td>60 km N of Katherine</td><td>Croc-free swim. Sealed road. Free with park pass.</td></tr>
+          <tr><td><strong>Nakara</strong></td><td>D3 late afternoon</td><td>~250 km</td><td>Home via Stuart Hwy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KATHERINE: BOOKINGS -->
+  <div class="tab-content" id="ka-3">
+    <div class="sh">Katherine Bookings</div>
+    <p class="ss">Much easier to book than Kakadu — but still, July school holidays mean accommodation and canoes fill up. Book now.</p>
+
+    <div class="card" style="overflow:auto">
+      <table class="bt">
+        <thead><tr><th>Item</th><th>Priority</th><th>How</th><th>Cost Est.</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Nitmiluk Caravan Park</strong><br>2 nights · at the gorge</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Book at <strong>nitmiluk.com.au</strong> or (08) 8972 1253. Powered sites for campers/caravans. Also has cabins. Best location — right at the gorge, walk to the water, 10 km from Katherine town.</td>
+            <td>Powered site: ~$55–70/night<br>Cabin: ~$140–180/night</td>
+          </tr>
+          <tr>
+            <td><strong>Canoe hire</strong><br>Half-day or full-day, gorge 1 + 2</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Book at <strong>nitmiluk.com.au</strong>. Specify number of canoes (singles and doubles available). July fills fast for morning departures. Half-day recommended for mixed group — full day is long for younger kids.</td>
+            <td>Half-day double: ~$50<br>Full-day double: ~$80</td>
+          </tr>
+          <tr>
+            <td><strong>Gorge Cruise</strong><br>2-hour, good for grandparents / non-paddlers</td>
+            <td><span class="p-now">NOW</span></td>
+            <td>Book at <strong>nitmiluk.com.au</strong>. Morning departure recommended. Flat-bottomed boat, shade, commentary. Good alternative or complement to canoes for the group.</td>
+            <td>Adult: ~$55 · Child: ~$30</td>
+          </tr>
+          <tr>
+            <td><strong>Nitmiluk Park Pass</strong><br>Required for gorge entry</td>
+            <td><span class="p-soon">SOON</span></td>
+            <td>Buy online at <strong>nitmiluk.com.au</strong> or at the visitor centre on arrival. Note: NT residents may be eligible for free or discounted entry — confirm before purchasing.</td>
+            <td>Adult: ~$12 · Child: ~$6</td>
+          </tr>
+          <tr>
+            <td><strong>Katherine Town accommodation (alt.)</strong><br>If gorge caravan park full</td>
+            <td><span class="p-pre">BACKUP</span></td>
+            <td>Knotts Crossing Resort or Katherine Hotel in town (~30 km from gorge). More options but less atmospheric. Only use as backup if Nitmiluk CP is full.</td>
+            <td>~$120–200/night</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KATHERINE: BUDGET -->
+  <div class="tab-content" id="ka-4">
+    <div class="sh">Katherine Budget</div>
+    <p class="ss">2 nights. Adjust for your group size. Katherine is notably cheaper than Kakadu.</p>
+
+    <div class="card">
+      <div class="card-header open" onclick="toggle(this)">
+        <div class="card-icon" style="background:rgba(240,165,0,0.12)">🎚</div>
+        <h3>Adjust for your group</h3>
+        <span class="toggle">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="sl-grid">
+          <div class="sl-block">
+            <label>Number of Adults</label>
+            <div class="sl-row">
+              <input type="range" id="kath-a" min="2" max="10" value="4" step="1" oninput="document.getElementById('kath-al').textContent=this.value+' adults';calcKABudget();">
+              <span id="kath-al">4 adults</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Number of Kids</label>
+            <div class="sl-row">
+              <input type="range" id="kath-k" min="0" max="8" value="3" step="1" oninput="document.getElementById('kath-kl').textContent=this.value+' kids';calcKABudget();">
+              <span id="kath-kl">3 kids</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Canoes booked</label>
+            <div class="sl-row">
+              <input type="range" id="kath-c" min="1" max="6" value="3" step="1" oninput="document.getElementById('kath-cl').textContent=this.value+' canoes';calcKABudget();">
+              <span id="kath-cl">3 canoes</span>
+            </div>
+          </div>
+          <div class="sl-block">
+            <label>Accommodation</label>
+            <div class="sl-row">
+              <input type="range" id="kath-acc" min="1" max="2" value="1" step="1" oninput="document.getElementById('kath-acl').textContent=['','Caravan Park','Cabins'][this.value];calcKABudget();">
+              <span id="kath-acl">Caravan Park</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="budget-hero">
+      <div>
+        <div class="bh-label">Estimated Total</div>
+        <div id="ka-grand" class="bh-total">$980</div>
+        <div class="bh-sub" id="ka-bsub">Katherine · 2 nights · 4 adults + 3 kids</div>
+      </div>
+      <div class="bh-grid">
+        <div class="bh-cell"><div id="ka-accom" class="bh-val" style="color:#F0A500">$260</div><div class="bh-key">Accommodation</div></div>
+        <div class="bh-cell"><div id="ka-acts" class="bh-val" style="color:#5DB053">$290</div><div class="bh-key">Canoes + Cruise</div></div>
+        <div class="bh-cell"><div id="ka-food" class="bh-val" style="color:#2496B8">$280</div><div class="bh-key">Food</div></div>
+        <div class="bh-cell"><div id="ka-fuel" class="bh-val" style="color:#E05A3A">$110</div><div class="bh-key">Fuel + Misc</div></div>
+      </div>
+    </div>
+
+    <div class="alert alert-leaf">
+      <div class="alert-icon">💡</div>
+      <div><em>Katherine is great value.</em> The gorge itself is free once you have the park pass (~$12/adult). Canoe hire is reasonable for what it is. Compared to Kakadu, you're spending less on accommodation and there are no paid activities beyond canoes and cruise.</div>
+    </div>
+
+    <script>
+    function calcKABudget(){
+      var adults=parseInt(document.getElementById('kath-a').value);
+      var kids=parseInt(document.getElementById('kath-k').value);
+      var canoes=parseInt(document.getElementById('kath-c').value);
+      var accStyle=parseInt(document.getElementById('kath-acc').value);
+      var accPerNight=accStyle===1?65*(Math.ceil((adults+kids)/6)||1):160*Math.ceil(adults/4);
+      var accom=accPerNight*2;
+      // Activities
+      var pass=12*adults+6*kids;
+      var canoeHire=50*canoes;
+      var cruise=55*Math.ceil(adults/2)+30*Math.ceil(kids/2);
+      var acts=pass+canoeHire+cruise;
+      // Food
+      var food=Math.round((30*adults+18*kids)*3);
+      // Fuel
+      var fuel=80;
+      var sub=accom+acts+food+fuel;
+      var cont=Math.round(sub*0.1);
+      var grand=sub+cont;
+      document.getElementById('ka-accom').textContent='$'+accom;
+      document.getElementById('ka-acts').textContent='$'+acts;
+      document.getElementById('ka-food').textContent='$'+food;
+      document.getElementById('ka-fuel').textContent='$'+(fuel+cont);
+      document.getElementById('ka-grand').textContent='$'+grand.toLocaleString();
+      document.getElementById('ka-bsub').textContent='Katherine · 2 nights · '+adults+' adults + '+kids+' kids';
+    }
+    window.addEventListener('load',calcKABudget);
+    </script>
+  </div>
+
+  <!-- KATHERINE: PACKING -->
+  <div class="tab-content" id="ka-5">
+    <div class="sh">Katherine Packing</div>
+    <p class="ss">Sealed road trip. Even simpler than Kakadu — pack for a summer holiday with water activities.</p>
+
+    <ul class="cl">
+      <li class="cat">— Gorge Essentials —</li>
+      <li><input type="checkbox" id="kp1"><label for="kp1">Nitmiluk Park Pass + canoe booking confirmation</label></li>
+      <li><input type="checkbox" id="kp2"><label for="kp2">Old shoes or aqua shoes for gorge canoe portage — rocky and slippery</label></li>
+      <li><input type="checkbox" id="kp3"><label for="kp3">Dry bags for phones, keys, valuables in the canoe</label></li>
+      <li><input type="checkbox" id="kp4"><label for="kp4">Rashies / rash shirts — in the canoe you get wet and the sun reflects off the water</label></li>
+      <li><input type="checkbox" id="kp5"><label for="kp5">Small daypack that fits in the canoe — water, snacks, sunscreen</label></li>
+      <li><input type="checkbox" id="kp6"><label for="kp6">Water bottles × family — minimum 1.5L each for the gorge, it's warm</label></li>
+      <li><input type="checkbox" id="kp7"><label for="kp7">Picnic lunch for the gorge — bring your own, eat on the rocks in gorge 2</label></li>
+
+      <li class="cat">— Swimming —</li>
+      <li><input type="checkbox" id="kp8"><label for="kp8">Swimmers × 2 each — gorge swim + Edith Falls, both in one day possible</label></li>
+      <li><input type="checkbox" id="kp9"><label for="kp9">Quick-dry towels</label></li>
+      <li><input type="checkbox" id="kp10"><label for="kp10">Sunscreen SPF50+ — gorge reflects sun strongly, reapply often</label></li>
+      <li><input type="checkbox" id="kp11"><label for="kp11">Broad-brim hats — good for walking sections between gorges</label></li>
+
+      <li class="cat">— Camp / Accommodation —</li>
+      <li><input type="checkbox" id="kp12"><label for="kp12">If camping at Nitmiluk CP: tent + sleeping gear + camp chairs</label></li>
+      <li><input type="checkbox" id="kp13"><label for="kp13">Insect repellent — Katherine evenings have mozzies</label></li>
+      <li><input type="checkbox" id="kp14"><label for="kp14">Warmer layer for evenings — Katherine nights in July can drop to 15°C</label></li>
+      <li><input type="checkbox" id="kp15"><label for="kp15">Cash + fuel card — Katherine town has supermarket (IGA), fuel at the gorge and town</label></li>
+
+      <li class="cat">— For the Kids —</li>
+      <li><input type="checkbox" id="kp16"><label for="kp16">Snorkel mask × kids — gorge water is clear enough to see freshwater crocs (harmless) from the canoe</label></li>
+      <li><input type="checkbox" id="kp17"><label for="kp17">Sketchbook — the gorge walls are extraordinary to draw</label></li>
+      <li><input type="checkbox" id="kp18"><label for="kp18">Small net / bucket for exploring shallow creek edges</label></li>
+    </ul>
+  </div>
+
+</div><!-- end katherine trip -->
+
+</div><!-- end main -->
+
+<!-- ── OVERVIEW / PLANNING SECTION ── -->
+<div style="background:var(--dark);padding:40px 24px;margin-top:0">
+  <div style="max-width:900px;margin:0 auto">
+    <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:white;margin-bottom:16px">Planning the July visit</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sun);margin-bottom:10px">Suggested Schedule</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.9">
+          <div>2 Jul — Salama family arrives ✈</div>
+          <div>3 Jul — Settle in, Darwin day</div>
+          <div>4–7 Jul — <strong style="color:var(--lime)">Kakadu (3 nights)</strong></div>
+          <div>8 Jul — Darwin rest day</div>
+          <div>9–11 Jul — <strong style="color:var(--water)">Katherine Gorge (2 nights)</strong></div>
+          <div>12–19 Jul — Darwin days, beaches, markets</div>
+          <div>20 Jul — Salama family departs ✈</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sun);margin-bottom:10px">Darwin Day Ideas</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.9">
+          <div>🐊 Adelaide River jumping croc cruise</div>
+          <div>🛍 Parap Saturday Markets (breakfast)</div>
+          <div>🏊 Darwin Waterfront Wave Pool</div>
+          <div>🎨 Museum &amp; Art Gallery NT (MAGNT)</div>
+          <div>🌅 Mindil Beach sunset markets (Thu/Sun)</div>
+          <div>🐟 Darwin Harbour sunset sailing</div>
+          <div>🐠 Darwin Aquascene fish feeding</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:20px;text-align:center">
+      Made for Chris, Tina, Lewis Salama Fox &amp; Reuben Salama Fox — July 2026 · Darwin, NT
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TRIP SELECTOR ──
+function selectTrip(id, card){
+  document.querySelectorAll('.trip-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.trip-section').forEach(s=>s.classList.remove('active'));
+  card.classList.add('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:document.querySelector('.trips-nav').offsetTop-10,behavior:'smooth'});
+}
+
+// ── TABS within each trip ──
+function showTab(e, prefix){
+  var row = e.target.closest('.tab-row');
+  var section = row.closest('.trip-section');
+  var btns = row.querySelectorAll('.tab-btn');
+  var idx = Array.from(btns).indexOf(e.target);
+  btns.forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  var contents = section.querySelectorAll('.tab-content');
+  contents.forEach(c=>c.classList.remove('active'));
+  if(contents[idx]) contents[idx].classList.add('active');
+}
+
+// ── CARD TOGGLES ──
+function toggle(header){
+  var body=header.nextElementSibling;
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// Open first cards in each section
+document.querySelectorAll('.card-header').forEach((h,i)=>{
+  if(h.classList.contains('open')){
+    h.nextElementSibling.classList.add('open');
+  }
+});
+</script>
+</body>
+</html>
