@@ -47,7 +47,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
 .wp.teen{background:rgba(106,74,154,0.1);color:var(--purple);}
 
 /* ── FILTER NAV ── */
-.filter-nav{background:white;border-bottom:2px solid rgba(26,122,138,0.1);position:sticky;top:0;z-index:20;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.filter-nav{background:white;border-bottom:2px solid rgba(26,122,138,0.1);position:sticky;top:0;z-index:20;box-shadow:0 2px 12px rgba(0,0,0,0.06);position:sticky;}.filter-nav::after{content:'';position:absolute;top:0;right:0;height:100%;width:40px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.95));pointer-events:none;z-index:21;}
 .filter-inner{max-width:960px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
 .filter-inner::-webkit-scrollbar{display:none;}
 .filter-btn{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);background:none;border:none;padding:14px 18px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;}
@@ -134,7 +134,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <h1>Welcome to<br><em>Darwin!</em></h1>
     <div class="hero-sub">Your local guide to the best of Darwin and surrounds — all on Larrakia Country (Garramilla). Home base is Nakara — everything here is within 20 minutes. Tetta and Giddo's birthday celebration on Saturday 18 July.</div>
     <div class="hero-dates">
-      <div class="date-pill"><strong>2 July – 20 July 2026</strong></div>
+      <div class="date-pill"><strong>2 July – 25 July 2026</strong></div>
       <div class="date-pill">Nakara · Larrakia Country</div>
       <div class="date-pill">🎂 Tetta birthday party — Sat 18 Jul</div>
       <div class="date-pill">🌡 July: 30°C · Dry season · Perfect</div>
@@ -170,17 +170,17 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
         <div class="who-group-name" style="color:var(--coral)">Perth Salamas — downstairs (12–19 Jul) ✓</div>
         <div class="who-pills">
           <span class="wp teen">Isis (18)</span>
-          <span class="wp teen">Tari (16)</span>
+          <span class="wp teen">Tari (17)</span>
           <span class="wp teen">Kian (13)</span>
           <span style="font-size:10px;color:var(--stone);align-self:center">Confirmed · arrive Sun 12 Jul 3pm · depart Sun 19</span>
       </div>
 
       <div class="who-group">
-        <div class="who-group-name" style="color:var(--gold)">Tetta (Dora) &amp; Giddo — Hotel (15–20 Jul) ✓</div>
+        <div class="who-group-name" style="color:var(--gold)">Tetta (Dora) &amp; Giddo — Hotel (15–25 Jul) ✓</div>
         <div class="who-pills">
           <span class="wp grand">Tetta / Dora 🎂</span>
           <span class="wp grand">Giddo / Amazis</span>
-          <span style="font-size:10px;color:var(--stone);align-self:center">Confirmed 15–20 Jul · Birthday lunch Sat 18 Jul at Nakara</span>
+          <span style="font-size:10px;color:var(--stone);align-self:center">Confirmed 15 Jul → fly Sydney 25 Jul · Medical conference 19–22 Jul · Birthday lunch Sat 18 · Sailing Club 12pm</span>
         </div>
       </div>
 
@@ -188,7 +188,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div style="font-size:11px;color:var(--stone);border-top:1px solid rgba(26,122,138,0.08);padding-top:10px;display:flex;gap:20px;flex-wrap:wrap">
       <span><span style="color:var(--coral)">★</span> Giddo &amp; Tetta options flagged on every card</span>
       <span>·</span>
-      <span>Teens (Isis 18, Tari 16, Matteo 15, Kian 13) have their own badge</span>
+      <span>Teens (Isis 18, Tari 17, Matteo 15, Kian 13) have their own badge</span>
       <span>·</span>
       <span>All activities within 20 min of Nakara · all on Larrakia Country</span>
     </div>
@@ -199,14 +199,16 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
 <div class="filter-nav">
   <div class="filter-inner">
     <button class="filter-btn active" onclick="showCat('all',this)">All</button>
-    <button class="filter-btn" onclick="showCat('week',this)">Week Planner</button>
+    <button class="filter-btn" onclick="showCat('week',this)">Week</button>
     <button class="filter-btn" onclick="showCat('markets',this)">Markets</button>
-    <button class="filter-btn" onclick="showCat('art',this)">Art &amp; Culture</button>
+    <button class="filter-btn" onclick="showCat('art',this)">Art</button>
     <button class="filter-btn" onclick="showCat('wildlife',this)">Wildlife</button>
-    <button class="filter-btn" onclick="showCat('water',this)">Water &amp; Beach</button>
-    <button class="filter-btn" onclick="showCat('nature',this)">Nature &amp; Walks</button>
-    <button class="filter-btn" onclick="showCat('evening',this)">Evenings Out</button>
-    <button class="filter-btn" onclick="showCat('coffee',this)">Coffee &amp; Food</button>
+    <button class="filter-btn" onclick="showCat('water',this)">Water</button>
+    <button class="filter-btn" onclick="showCat('nature',this)">Nature</button>
+    <button class="filter-btn" onclick="showCat('evening',this)">Evenings</button>
+    <button class="filter-btn" onclick="showCat('coffee',this)">Coffee</button>
+    <button class="filter-btn" onclick="showCat('costs',this)" style="color:var(--teal);font-weight:800">💰 Costs</button>
+    <button class="filter-btn" onclick="showCat('lunch',this)" style="color:var(--teal);font-weight:800">⛵ Lunch</button>
   </div>
 </div>
 
@@ -218,7 +220,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="cat-icon" style="background:rgba(232,160,32,0.12)">📅</div>
     <div><div class="cat-title">Week Planner</div></div>
   </div>
-  <p class="cat-sub">The camping crew — Chris, Tina, Lewis, Reuben + Matteo and Maggie — are back in Darwin (Larrakia Country) Saturday 11 July night after 8 days away. Isis, Tari and Kian arrive Sunday 12 July at 3pm ✓. Tetta and Giddo confirmed 15–20 July ✓ with a hire car. The two big outings: <strong>Litchfield Wednesday 15</strong> (7 kids + Chris, Tina and Neil Burton — 2 cars) and the <strong>Jumping Crocs cruise Friday 17</strong> (all kids + Tetta and Giddo). Tina works Thursday 16 and Sunday 19. Birthday lunch Saturday 18 July at home. The five visiting kids fly out Sunday 19; Tetta and Giddo depart Monday 20.</p>
+  <p class="cat-sub">The camping crew — Chris, Tina, Lewis, Reuben + Matteo and Maggie — are back in Darwin (Larrakia Country) Saturday 11 July night after 8 days away. Isis, Tari and Kian arrive Sunday 12 July at 3pm ✓. Tetta and Giddo confirmed 15–20 July ✓ with a hire car. The two big outings: <strong>Litchfield Wednesday 15</strong> (7 kids + Chris, Tina and Neil Burton — 2 cars) and the <strong>Jumping Crocs cruise Friday 17</strong> (all kids + Tetta and Giddo). Tina works Thursday 16 and Sunday 19. Birthday lunch Saturday 18 July at the Sailing Club. The five visiting kids fly out Sunday 19. Tetta and Giddo (Dora + Amazis) stay on — at a medical conference 19–22 July, then with us until they fly to Sydney on 25 July.</p>
 
   <div class="tips" style="margin-bottom:20px">
     <div class="tips-title">🎂 Tetta (Dora) Birthday Lunch — Saturday 18 July, Nakara</div>
@@ -243,7 +245,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="day-row">
       <div><div class="day-label">Sun 12</div><div class="day-date">Kids arrive 3pm · local</div></div>
       <div class="day-content">
-        <strong>Recovery morning → airport pickup 3pm → local arvo at Casuarina Beach.</strong> The camping crew got home late last night — sleep in, camper unpack, washing on, big Coles shop. <strong>3pm: Isis (18), Tari (16) and Kian (13) land</strong> — airport pickup, settle them in downstairs. Then an easy local afternoon: home time and Casuarina Beach — Casuarina Coastal Reserve on Larrakia sea country, 5 minutes away. Gentle landing for everyone.
+        <strong>Recovery morning → airport pickup 3pm → local arvo at Casuarina Beach.</strong> The camping crew got home late last night — sleep in, camper unpack, washing on, big Coles shop. <strong>3pm: Isis (18), Tari (17) and Kian (13) land</strong> — airport pickup, settle them in downstairs. Then an easy local afternoon: home time and Casuarina Beach — Casuarina Coastal Reserve on Larrakia sea country, 5 minutes away. Gentle landing for everyone.
         <div class="day-tags"><span class="dt dt-home">✈ Airport pickup 3pm</span><span class="dt dt-water">Casuarina Beach arvo</span><span class="dt dt-home">Coles shop done ✓</span></div>
       </div>
     </div>
@@ -267,7 +269,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="day-row">
       <div><div class="day-label">Wed 15</div><div class="day-date">Litchfield · Tetta + Giddo arrive ✓</div></div>
       <div class="day-content">
-        <strong>Litchfield National Park — waterhole swimming day. 7 kids + 3 adults, 2 cars.</strong> Litchfield is Koongurrukun, Mak Mak Marranunggu, Werat and Warray Country — their Ancestral Spirits formed this landscape and are still present in it today. Crew: all 7 kids (Isis 18, Tari 16, Matteo 15, Kian 13, Maggie 11, Lewis 9, Reuben 6) + Chris, Tina and <strong>Neil Burton</strong>, split across the Everest and Neil's car. About 1.5 hrs from Nakara, sealed road via Batchelor — leave by 7:30am. Route: <strong>Florence Falls</strong> first (plunge pool below the twin falls — 160 steps down, or the shady creek walk) → <strong>Buley Rockhole</strong> (chain of cascading pools, perfect for pool-hopping) → picnic lunch → <strong>Wangi Falls</strong> for the afternoon (big easy-access pool, shaded lawns, café). Magnetic termite mounds are a 5-min photo stop. All swim spots are dry-season croc-managed — check NT Parks alerts that morning. NT Parks Pass online beforehand (NT residents exempt; under-18s free — likely just Isis needs one). <strong>Meanwhile Tetta and Giddo land at 5pm (confirmed 15–20 Jul) and pick up their hire car</strong> — they head straight to the hotel to rest after the flight. No dinner plans together tonight — the family has an easy post-Litchfield dinner at Nakara, and the first proper catch-up is lunch tomorrow.
+        <strong>Litchfield National Park — waterhole swimming day. 7 kids + 3 adults, 2 cars.</strong> Litchfield is Koongurrukun, Mak Mak Marranunggu, Werat and Warray Country — their Ancestral Spirits formed this landscape and are still present in it today. Crew: all 7 kids (Isis 18, Tari 17, Matteo 15, Kian 13, Maggie 11, Lewis 9, Reuben 6) + Chris, Tina and <strong>Neil Burton</strong>, split across the Everest and Neil's car. About 1.5 hrs from Nakara, sealed road via Batchelor — leave by 7:30am. Route: <strong>Florence Falls</strong> first (plunge pool below the twin falls — 160 steps down, or the shady creek walk) → <strong>Buley Rockhole</strong> (chain of cascading pools, perfect for pool-hopping) → picnic lunch → <strong>Wangi Falls</strong> for the afternoon (big easy-access pool, shaded lawns, café). Magnetic termite mounds are a 5-min photo stop. All swim spots are dry-season croc-managed — check NT Parks alerts that morning. NT Parks Pass online beforehand (NT residents exempt; under-18s free — likely just Isis needs one). <strong>Meanwhile Tetta and Giddo land at 5pm (confirmed 15–20 Jul) and pick up their hire car</strong> — they head straight to the hotel to rest after the flight. No dinner plans together tonight — the family has an easy post-Litchfield dinner at Nakara, and the first proper catch-up is lunch tomorrow.
         <div class="day-tags"><span class="dt dt-water">Florence + Buley + Wangi</span><span class="dt dt-home">2 cars · 3 adults · 7 kids · depart 7:30am</span><span class="dt dt-home">✈ Tetta + Giddo land 5pm → hotel · hire car</span></div>
       </div>
     </div>
@@ -281,34 +283,58 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     </div>
 
     <div class="day-row">
-      <div><div class="day-label">Fri 17</div><div class="day-date">🐊 Jumping crocs day</div></div>
+      <div><div class="day-label">Fri 17</div><div class="day-date">🐊 Jumping crocs 3pm</div></div>
       <div class="day-content">
-        <strong>🐊 Spectacular Jumping Crocodile Cruise — Adelaide River (Limilngan-Wulna Country).</strong> All 7 kids + Chris and Tina in the Everest (7 seats — two kids ride with Tetta and Giddo in their hire car). Indigenous-owned and operated by Arirrki Aboriginal Corporation — every ticket supports the local Aboriginal community, and their animal ethics policy was developed with NT Parks &amp; Wildlife. Wild saltwater crocs launching out of the river a few metres from the boat — the guides know each croc by name. <strong>Book the 11am cruise</strong>: depart Nakara 9:45am, ~55 min via the Arnhem Hwy, cruise 11am–12pm, then BYO picnic lunch at their riverside kiosk (tea and coffee free). Optional on the way back: Window on the Wetlands lookout at Ludawei (Beatrice Hill) — Limilngan-Wulna Turtle Dreaming country with 270° floodplain views, and Fogg Dam for birdlife. Home ~3–4pm. <strong>Evening: party prep</strong> — garden setup, long table out, cooking; the teens run setup. Cruises: 9am, 11am, 1pm, 3pm daily · book at jumpingcrocodile.com.au or 08 8978 9077.
-        <div class="day-tags"><span class="dt dt-croc">🐊 11am cruise · ~$535 + fees for the group</span><span class="dt dt-home">2 cars: Everest + hire car</span><span class="dt dt-home">Party prep evening</span></div>
+        <strong>🐊 Spectacular Jumping Crocodile Cruise — Adelaide River (Limilngan-Wulna Country). Booked: 3pm today.</strong> All 7 kids + Chris and Tina in the Everest (7 seats — two kids ride with Tetta and Giddo in their hire car). Indigenous-owned and operated by Arirrki Aboriginal Corporation — every ticket supports the local Aboriginal community, and their animal ethics policy was developed with NT Parks &amp; Wildlife. Wild saltwater crocs launching out of the river a few metres from the boat — the guides know each croc by name. <strong>Cruise is at 3pm</strong>: depart Nakara ~1:45pm, ~55 min via the Arnhem Hwy, cruise 3pm–4pm — great late-afternoon light on the river. Optional on the way there: Window on the Wetlands lookout at Ludawei (Beatrice Hill) — Limilngan-Wulna Turtle Dreaming country with 270° floodplain views, and Fogg Dam for birdlife. Home ~5:30–6pm. <strong>Party prep tonight</strong> — garden setup, long table out, cooking; the teens run setup. Cruises: 9am, 11am, 1pm, 3pm daily · jumpingcrocodile.com.au or 08 8978 9077.
+        <div class="day-tags"><span class="dt dt-croc">🐊 3pm cruise · ~$535 + fees for the group</span><span class="dt dt-home">2 cars: Everest + hire car</span><span class="dt dt-home">Party prep evening</span></div>
       </div>
     </div>
 
     <div class="day-row" style="border:2px solid rgba(232,160,32,0.4);border-radius:10px;background:rgba(232,160,32,0.04);">
       <div><div class="day-label" style="color:var(--gold)">Sat 18</div><div class="day-date" style="color:var(--gold)">🎂 BIRTHDAY LUNCH</div></div>
       <div class="day-content">
-        <strong>🎂 Tetta (Dora) Birthday Lunch — home at Nakara.</strong> The whole family together. Long table in the garden, Middle Eastern/Lebanese spread (cater in or cook together as a family), music, the children performing or presenting something for Tetta. Keep the morning free for any last prep. Lunch from 12pm–1pm and let it run into the afternoon and evening — the kids fly out tomorrow so this is everyone's last full day together. This is the centrepiece of the whole July visit — everything else is around this.
-        <div class="day-tags"><span class="dt dt-home">Home at Nakara — the whole family</span><span class="dt dt-market">Long arvo lunch → dinner</span></div>
+        <strong>🎂 Tetta (Dora) Birthday Lunch — Darwin Sailing Club, 12pm ✓.</strong> Booked: table for 11 on the water at Fannie Bay (Larrakia sea country). The whole family together — seafood and steaks with the best view in Darwin, sea breeze, the kids can run on the grass. See the <strong>⛵ Lunch</strong> tab for the menu and group order. Keep the morning easy. After lunch, back to Nakara for cake and an easy afternoon into evening — the kids fly out tomorrow, so this is everyone's last full day together. The centrepiece of the whole July visit.
+        <div class="day-tags"><span class="dt dt-water">⛵ Sailing Club 12pm — table for 11</span><span class="dt dt-home">Cake at Nakara after</span></div>
       </div>
     </div>
 
     <div class="day-row">
       <div><div class="day-label">Sun 19</div><div class="day-date">Kids depart · Tina working</div></div>
       <div class="day-content">
-        <strong>Departure day for the kids — Isis, Tari, Kian, Matteo and Maggie all fly out. Tina is working today</strong>, so Chris handles airport runs with Tetta and Giddo along for the farewells. If flight times allow, a final Nightcliff Markets run in the morning (Sunday 8am–2pm, 10 min from Nakara) — one last laksa and a wander before packing. Otherwise an easy home morning: final swims, packing, group photos. Evening: quiet dinner at Nakara with Tetta and Giddo — the house suddenly very calm.
+        <strong>Departure day for the kids — Isis, Tari, Kian, Matteo and Maggie all fly out. Tina is working today</strong>, so Chris handles airport runs with Tetta and Giddo along for the farewells. If flight times allow, a final Nightcliff Markets run in the morning (Sunday 8am–2pm, 10 min from Nakara) — one last laksa and a wander before packing. Otherwise an easy home morning: final swims, packing, group photos. Evening: quiet dinner at Nakara with Tetta and Giddo — the house suddenly very calm with the kids gone. Tetta and Giddo stay on (conference starts tomorrow).
         <div class="day-tags"><span class="dt dt-home">✈ Kids fly out — airport runs (Chris)</span><span class="dt dt-home">Tina working today</span><span class="dt dt-market">Nightcliff Markets morning (if flights allow)</span></div>
       </div>
     </div>
 
     <div class="day-row">
-      <div><div class="day-label">Mon 20</div><div class="day-date">Tetta + Giddo depart</div></div>
+      <div><div class="day-label">Mon 20</div><div class="day-date">Conference begins · quiet at home</div></div>
       <div class="day-content">
-        <strong>Tetta and Giddo head home.</strong> A slow final Darwin morning — George Brown Botanic Gardens for a last coffee at Eva's Café if time allows before the airport run. Farewells, and the end of a big July on Larrakia Country.
-        <div class="day-tags"><span class="dt dt-home">✈ Tetta + Giddo depart</span><span class="dt dt-art">Eva's Café farewell breakfast (optional)</span></div>
+        <strong>Tetta and Giddo's medical conference begins (19–22 July inclusive).</strong> Dora and Amazis are occupied with the conference across these days, so the pace at Nakara drops right down after a big fortnight. A recovery week for Chris, Tina and the boys — school and work back to normal, home reset, washing, the ordinary rhythm returning. Catch up with Tetta and Giddo around their conference schedule where it suits.
+        <div class="day-tags"><span class="dt dt-home">Conference 19–22 Jul</span><span class="dt dt-home">Quiet week at Nakara</span></div>
+      </div>
+    </div>
+
+    <div class="day-row" style="border:2px solid rgba(26,122,138,0.35);border-radius:10px;background:rgba(26,122,138,0.04)">
+      <div><div class="day-label" style="color:var(--teal)">Thu 23</div><div class="day-date" style="color:var(--teal)">✈ Pitch Black flying display</div></div>
+      <div class="day-content">
+        <strong>Mindil Beach Flying Display — Exercise Pitch Black. 5:00–6:30pm ✓ (confirmed, free).</strong> The RAAF and international partners return to Mindil Beach for the Pitch Black flying display — up to 100 jets from 20 nations are in Darwin for the exercise (20 Jul–7 Aug), including Japanese and Indonesian F-35s and Golden Eagles for the first time. Fighter jets, transport aircraft, aerial demonstrations and flypasts against the Mindil sunset. It coincides with the regular Thursday Mindil Beach Sunset Market — food stalls stay open until 9pm. Free, non-ticketed. <strong>Get there early: the Mindil car park is expected full and closed by 4pm</strong>, with road closures from then — park-and-walk from further out, or ride-share/drop-off. ABC Darwin 105.7 broadcasts live commentary and aircrew interviews. A brilliant, unexpected bonus for the family — arrive ~4pm, grab a market dinner, watch the display from the sand.
+        <div class="day-tags"><span class="dt dt-market">Mindil market + flypast 5–6:30pm</span><span class="dt dt-home">Arrive by 4pm — carpark closes 4pm</span><span class="dt dt-art">ABC 105.7 live commentary</span></div>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div><div class="day-label">Fri 24</div><div class="day-date">Dinner with Tetta + Giddo</div></div>
+      <div class="day-content">
+        <strong>Family dinner at Nakara with Tetta and Giddo.</strong> Conference wrapped (ended Wed 22), so a relaxed evening together before they fly out. Cook at home or bring something in — a warm, unhurried night with Dora and Amazis, the boys, and Tina and Chris. A proper send-off after the whole July.
+        <div class="day-tags"><span class="dt dt-home">Dinner at home — Tetta + Giddo</span></div>
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div><div class="day-label">Sat 25</div><div class="day-date">Tetta + Giddo fly to Sydney</div></div>
+      <div class="day-content">
+        <strong>Tetta and Giddo fly to Sydney.</strong> A slow final Darwin morning — Eva's Café at the Botanic Gardens for a last coffee if time allows before the airport run. Farewells, and the close of a big July on Larrakia Country.
+        <div class="day-tags"><span class="dt dt-home">✈ Fly to Sydney</span><span class="dt dt-art">Eva's Café farewell (optional)</span></div>
       </div>
     </div>
 
@@ -318,41 +344,10 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="tips-title">Tips for a big mixed group</div>
     <div class="tips-grid">
       <div class="tip">Not every activity suits everyone — don't force the whole group everywhere. Let the teens go independently where it makes sense.</div>
-      <div class="tip">Isis (18), Tari (16), Matteo (15) and Kian (13) are old enough to do Aqua Park, galleries and markets independently.</div>
+      <div class="tip">Isis (18), Tari (17), Matteo (15) and Kian (13) are old enough to do Aqua Park, galleries and markets independently.</div>
       <div class="tip">Darwin is small — nothing is more than 20 min from Nakara. Don't over-schedule. Days at home are part of the visit.</div>
       <div class="tip">July is the best time of year — 30°C days, no humidity, no mosquitoes. Outdoor activities all work.</div>
       <div class="tip">Mindil Beach on Thursday and Sunday evenings is the non-negotiable group outing. Do both nights.</div>
-    </div>
-  </div>
-
-  <div class="tips" style="border-color:rgba(26,122,138,0.25)">
-    <div class="tips-title" style="color:var(--teal)">💰 Costs — estimate + running actuals</div>
-    <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:18px">
-        <thead><tr style="text-align:left;border-bottom:2px solid rgba(26,122,138,0.2)">
-          <th style="padding:6px 8px">Item</th><th style="padding:6px 8px;text-align:right">Estimate</th>
-        </tr></thead>
-        <tbody>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Groceries — big shops across the fortnight (10–11 at the table most nights)</td><td style="padding:6px 8px;text-align:right">~$1,350</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Jumping Crocs cruise Fri 17 — Isis, Tari, Matteo at adult rate 15+ (3×$55), Kian, Maggie, Lewis, Reuben (4×$40), Tetta + Giddo seniors (2×$50), Chris + Tina (2×$55)</td><td style="padding:6px 8px;text-align:right">~$535 + fees</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Litchfield Wed 15 — fuel 2 cars + NT Parks Pass (residents exempt, U18 free — likely just Isis)</td><td style="padding:6px 8px;text-align:right">~$80</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Adelaide River fuel Fri 17</td><td style="padding:6px 8px;text-align:right">~$35</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Birthday lunch Sat 18 — Lebanese spread, cater in or cook</td><td style="padding:6px 8px;text-align:right">~$400–600</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Market dinners — Mindil ×2 + Nightcliff</td><td style="padding:6px 8px;text-align:right">~$600</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Misc — Deckchair, ice creams, coffees</td><td style="padding:6px 8px;text-align:right">~$250</td></tr>
-          <tr style="font-weight:700;border-top:2px solid rgba(26,122,138,0.25)"><td style="padding:8px">TOTAL ESTIMATE</td><td style="padding:8px;text-align:right;color:var(--teal)">~$3,250–3,450</td></tr>
-        </tbody>
-      </table>
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);margin-bottom:6px">Running actuals</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
-        <thead><tr style="text-align:left;border-bottom:2px solid rgba(26,122,138,0.2)">
-          <th style="padding:6px 8px">Date</th><th style="padding:6px 8px">Item</th><th style="padding:6px 8px;text-align:right">Actual</th>
-        </tr></thead>
-        <tbody>
-          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">12 Jul</td><td style="padding:6px 8px">Coles Casuarina — groceries (EFTPOS)</td><td style="padding:6px 8px;text-align:right">$451.25</td></tr>
-          <tr style="font-weight:700;border-top:2px solid rgba(26,122,138,0.25)"><td style="padding:8px" colspan="2">RUNNING TOTAL</td><td style="padding:8px;text-align:right;color:var(--teal)">$451.25</td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
@@ -611,7 +606,7 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="card">
       <div class="card-accent" style="background:linear-gradient(90deg,#2E6B4F,#7BAA5D)"></div>
       <div class="card-body">
-        <div class="card-eyebrow">CRUISE · BOOKED FRI 17 · INDIGENOUS-OWNED</div>
+        <div class="card-eyebrow">CRUISE · BOOKED FRI 17 · 3PM · INDIGENOUS-OWNED</div>
         <div class="card-title">Spectacular Jumping Crocodile Cruise</div>
         <div class="card-desc">Wild saltwater crocodiles launching vertically out of the Adelaide River, metres from the boat — on Limilngan-Wulna Country, whose ancestors' dreaming journeys are recorded across these floodplains. Owned and operated by Arirrki Aboriginal Corporation: every ticket supports the local community, and it's the only operator with a captain AND guide on every boat, with an animal ethics policy developed alongside NT Parks &amp; Wildlife. The guides know each croc by name and personality. One hour on the water, no minimum numbers so cruises always run, tea and coffee on arrival, and BYO picnics welcome at the riverside kiosk. Pair with the Window on the Wetlands lookout at Ludawei (Beatrice Hill) next door — Limilngan-Wulna Turtle Dreaming country.</div>
         <div class="card-meta">
@@ -816,9 +811,29 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
     <div class="cat-icon" style="background:rgba(106,74,154,0.12)">🌙</div>
     <div><div class="cat-title">Evenings Out</div></div>
   </div>
-  <p class="cat-sub">Darwin's dry season evenings are warm, clear and magical. The best evenings out all involve being outside.</p>
+  <p class="cat-sub">Darwin's dry season evenings are warm, clear and magical. The best evenings out all involve being outside — and this year, a Royal Australian Air Force flying display over Mindil Beach.</p>
 
   <div class="card-grid">
+
+    <div class="card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#1A7A8A,#2A3D40)"></div>
+      <div class="card-body">
+        <div class="card-eyebrow">FREE · THU 23 JUL · 5–6:30PM · CONFIRMED</div>
+        <div class="card-title">Pitch Black Flying Display — Mindil Beach</div>
+        <div class="card-desc">A free RAAF flying display over Mindil Beach (Larrakia sea country) as part of Exercise Pitch Black — the Air Force's biggest international exercise, with up to 100 jets from 20 nations in Darwin from 20 July to 7 August. Fighter jets, transport aircraft, aerial demonstrations and flypasts against the Mindil sunset, including the first appearance of Japanese and Indonesian F-35s and Golden Eagles. It runs alongside the Thursday Mindil Beach Sunset Market, so make a night of it — arrive early, grab a market dinner, watch from the sand. ABC Darwin 105.7 broadcasts live commentary and aircrew interviews.</div>
+        <div class="card-meta">
+          <div class="meta-row"><span class="meta-label">When</span><span>Thursday 23 July, 5:00–6:30pm</span></div>
+          <div class="meta-row"><span class="meta-label">Where</span><span>Mindil Beach — 10 min from Nakara</span></div>
+          <div class="meta-row"><span class="meta-label">Getting there</span><span>Mindil car park full &amp; closed by 4pm; road closures from then — park-and-walk or ride-share</span></div>
+          <div class="meta-row"><span class="meta-label">Cost</span><span>Free, non-ticketed</span></div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-kids">Every age — huge hit with kids</span>
+          <span class="badge b-grand">Giddo + Tetta ★ market seating nearby</span>
+        </div>
+        <a class="card-link" href="https://www.airforce.gov.au/our-work/exercises/exercise-pitch-black" target="_blank">airforce.gov.au — Exercise Pitch Black</a>
+      </div>
+    </div>
 
     <div class="card">
       <div class="card-accent" style="background:linear-gradient(90deg,var(--night),#2A3D40)"></div>
@@ -927,9 +942,148 @@ body{background:var(--mist);color:var(--night);font-family:'Inter',sans-serif;fo
   </div>
 </div>
 
+<!-- ═══════════════════════════════════ COSTS -->
+<div class="category" id="costs-cat" data-cat="costs">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:rgba(26,122,138,0.12)">💰</div>
+    <div><div class="cat-title">Costs</div></div>
+  </div>
+  <p class="cat-sub">Running actuals from the account — all trip costs from the 13 Jul Coles Casuarina shop up to today. Groceries and same-day repeat merchants are grouped into one line each; individual purchases are itemised.</p>
+
+  <div class="tips" style="border-color:rgba(26,122,138,0.25)">
+    <div class="tips-title" style="color:var(--teal)">All costs — Darwin leg (13 Jul → today)</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+        <thead><tr style="text-align:left;border-bottom:2px solid rgba(26,122,138,0.2)">
+          <th style="padding:6px 8px">Date</th><th style="padding:6px 8px">Item</th><th style="padding:6px 8px;text-align:right">Amount</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">13 Jul</td><td style="padding:6px 8px">Kmart Casuarina</td><td style="padding:6px 8px;text-align:right">$188.00</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">13 Jul</td><td style="padding:6px 8px">Uber — Trip</td><td style="padding:6px 8px;text-align:right">$31.57</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">13 Jul</td><td style="padding:6px 8px">Deckchair Cinema — tickets (EPiC Elvis)</td><td style="padding:6px 8px;text-align:right">$186.00</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">14 Jul</td><td style="padding:6px 8px">Darwin Airport — parking</td><td style="padding:6px 8px;text-align:right">$12.00</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">14 Jul</td><td style="padding:6px 8px">Aqua Park Darwin</td><td style="padding:6px 8px;text-align:right">$252.50</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">15 Jul</td><td style="padding:6px 8px">United Noonamah — fuel</td><td style="padding:6px 8px;text-align:right">$138.17</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">16 Jul</td><td style="padding:6px 8px">Casuarina All Sports Club — meal</td><td style="padding:6px 8px;text-align:right">$207.00</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">16 Jul</td><td style="padding:6px 8px">Spectacular Jumping Croc cruise (FareHarbor)</td><td style="padding:6px 8px;text-align:right">$442.91</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px;white-space:nowrap">13–16 Jul</td><td style="padding:6px 8px">Coles Casuarina — groceries (running, not split)</td><td style="padding:6px 8px;text-align:right">$582.92</td></tr>
+          <tr style="font-weight:700;border-top:2px solid rgba(26,122,138,0.25)"><td style="padding:8px" colspan="2">RUNNING TOTAL</td><td style="padding:8px;text-align:right;color:var(--teal)">$2,041.07</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10.5px;color:var(--stone);margin-top:8px">Coles total covers 13 Jul ($451.25), 15 Jul ($123.38) and 16 Jul ($8.29). Deckchair total covers five ticket purchases ($108 + $45 + $18 + $10 + $5). Excludes internal transfers and money in.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════ SATURDAY LUNCH -->
+<div class="category" id="lunch-cat" data-cat="lunch">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:rgba(26,122,138,0.12)">⛵</div>
+    <div><div class="cat-title">Saturday Lunch — Sailing Club</div></div>
+  </div>
+  <p class="cat-sub"><strong>✓ Booked: 12pm Saturday 18 July, Darwin Sailing Club, table for 11.</strong> Birthday lunch on the water at Fannie Bay (Larrakia sea country). Menu and prices below — itemise the group's order and it tallies live. Menu source: <a href="https://dtbc.com.au/bistro-menu/" target="_blank" style="color:var(--teal)">local club bistro menu</a> · Sailing Club (08) 8981 1700.</p>
+
+  <div class="tips" style="border-color:rgba(26,122,138,0.25)">
+    <div class="tips-title" style="color:var(--teal)">Group order — Saturday 18 July</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+        <thead><tr style="text-align:left;border-bottom:2px solid rgba(26,122,138,0.2)">
+          <th style="padding:6px 8px">Who</th><th style="padding:6px 8px">Item</th><th style="padding:6px 8px;text-align:center">Qty</th><th style="padding:6px 8px;text-align:right">Each</th><th style="padding:6px 8px;text-align:right">Total</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Reuben (6)</td><td style="padding:6px 8px">Kids fish &amp; chips</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$13</td><td style="padding:6px 8px;text-align:right">$13</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Lewis (9)</td><td style="padding:6px 8px">Chicken nuggets &amp; chips</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$12</td><td style="padding:6px 8px;text-align:right">$12</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Maggie (11)</td><td style="padding:6px 8px">Kids spaghetti bolognese</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$12</td><td style="padding:6px 8px;text-align:right">$12</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Kian (13)</td><td style="padding:6px 8px">Club cheeseburger &amp; chips</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$25</td><td style="padding:6px 8px;text-align:right">$25</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Matteo (15)</td><td style="padding:6px 8px">Steak sandwich</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$27</td><td style="padding:6px 8px;text-align:right">$27</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Tari (17)</td><td style="padding:6px 8px">Barramundi burger</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$25</td><td style="padding:6px 8px;text-align:right">$25</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Isis (18)</td><td style="padding:6px 8px">Thai-style chicken salad</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$24</td><td style="padding:6px 8px;text-align:right">$24</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Chris</td><td style="padding:6px 8px">Fish &amp; chips</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$32</td><td style="padding:6px 8px;text-align:right">$32</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Tina</td><td style="padding:6px 8px">Poke bowl (yellowfin tuna)</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$27</td><td style="padding:6px 8px;text-align:right">$27</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Tetta 🎂</td><td style="padding:6px 8px">Miso salmon</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$33</td><td style="padding:6px 8px;text-align:right">$33</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Giddo</td><td style="padding:6px 8px">Scotch fillet 300g</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$43</td><td style="padding:6px 8px;text-align:right">$43</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Table</td><td style="padding:6px 8px">Grilled garlic bread (share)</td><td style="padding:6px 8px;text-align:center">2</td><td style="padding:6px 8px;text-align:right">$12</td><td style="padding:6px 8px;text-align:right">$24</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,122,138,0.08)"><td style="padding:6px 8px">Table</td><td style="padding:6px 8px">Salt &amp; pepper squid (share)</td><td style="padding:6px 8px;text-align:center">1</td><td style="padding:6px 8px;text-align:right">$16</td><td style="padding:6px 8px;text-align:right">$16</td></tr>
+          <tr style="font-weight:700;border-top:2px solid rgba(26,122,138,0.25)"><td style="padding:8px" colspan="4">FOOD TOTAL (est.)</td><td style="padding:8px;text-align:right;color:var(--teal)">$313</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10.5px;color:var(--stone);margin-top:8px">Food only — drinks, birthday cake and any sides extra. A rough per-head of ~$28 across 11 mains. Swap items freely; this is a starting order, not a locked one.</div>
+    </div>
+  </div>
+
+  <div class="tips" style="border-color:rgba(26,122,138,0.15)">
+    <div class="tips-title" style="color:var(--teal)">Full menu — pick &amp; choose</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:4px 0 6px">Starters &amp; shares</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Grilled Australian king prawns (GF)</td><td style="padding:4px 8px;text-align:right">$17</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Dynamite softshell crab (2)</td><td style="padding:4px 8px;text-align:right">$19</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Salt &amp; pepper squid (GF)</td><td style="padding:4px 8px;text-align:right">$16</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Wild mushroom arancini (3) (VE)</td><td style="padding:4px 8px;text-align:right">$14</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Chicken wings (8) (GF)</td><td style="padding:4px 8px;text-align:right">$13</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Hot chips with aioli</td><td style="padding:4px 8px;text-align:right">$11</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Grilled garlic bread (add cheese +$2)</td><td style="padding:4px 8px;text-align:right">$12</td></tr>
+      </tbody>
+    </table></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:12px 0 6px">Salads &amp; bowls</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Arugula salad (Vegan, GF)</td><td style="padding:4px 8px;text-align:right">$22</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Thai-style chicken salad (GF, DF)</td><td style="padding:4px 8px;text-align:right">$24</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Poke bowl — yellowfin tuna (GF, DF)</td><td style="padding:4px 8px;text-align:right">$27</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Beef tataki (GF, DF)</td><td style="padding:4px 8px;text-align:right">$27</td></tr>
+      </tbody>
+    </table></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:12px 0 6px">Seafood by the bay</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Pan-fried barramundi (GF, DF)</td><td style="padding:4px 8px;text-align:right">$34</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Miso salmon (GF)</td><td style="padding:4px 8px;text-align:right">$33</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Creamy garlic prawns</td><td style="padding:4px 8px;text-align:right">$33</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Fish &amp; chips (beer-battered barra)</td><td style="padding:4px 8px;text-align:right">$32</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Chilli mussels (GF, DF)</td><td style="padding:4px 8px;text-align:right">$33</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Hot seafood platter to share (serves 2)</td><td style="padding:4px 8px;text-align:right">$98</td></tr>
+      </tbody>
+    </table></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:12px 0 6px">Burgers &amp; sandwiches</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Club cheeseburger (+egg $3 / dbl patty $6.5)</td><td style="padding:4px 8px;text-align:right">$25</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Barramundi burger</td><td style="padding:4px 8px;text-align:right">$25</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Chicken Turkish sandwich</td><td style="padding:4px 8px;text-align:right">$24</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Steak sandwich (Black Angus)</td><td style="padding:4px 8px;text-align:right">$27</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Grilled Mediterranean sandwich (VE)</td><td style="padding:4px 8px;text-align:right">$23</td></tr>
+      </tbody>
+    </table></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:12px 0 6px">Pub classics &amp; grill</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Chicken schnitzel / parmigiana</td><td style="padding:4px 8px;text-align:right">$27</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Beef nachos (slow-cooked brisket)</td><td style="padding:4px 8px;text-align:right">$24</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Laksa — chicken $23 / seafood $29 / veg $21</td><td style="padding:4px 8px;text-align:right">$21–29</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Porterhouse 300g (GF, DF)</td><td style="padding:4px 8px;text-align:right">$41</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Scotch fillet 300g (GF, DF)</td><td style="padding:4px 8px;text-align:right">$43</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Braised lamb shank (GF, DF)</td><td style="padding:4px 8px;text-align:right">$33</td></tr>
+      </tbody>
+    </table></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin:12px 0 6px">Kids &amp; dessert</div>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Kids fish &amp; chips</td><td style="padding:4px 8px;text-align:right">$13</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Kids spaghetti bolognese</td><td style="padding:4px 8px;text-align:right">$12</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Chicken nuggets &amp; chips</td><td style="padding:4px 8px;text-align:right">$12</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Minute steak &amp; chips</td><td style="padding:4px 8px;text-align:right">$15</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Classic banana split</td><td style="padding:4px 8px;text-align:right">$11</td></tr>
+        <tr style="border-bottom:1px solid rgba(26,122,138,0.06)"><td style="padding:4px 8px">Cheesecake of the day</td><td style="padding:4px 8px;text-align:right">$16</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+</div>
+
 </div><!-- end main -->
 
-<!-- ALL VIEW — shows all cats at once -->
 <div id="all-view" class="main" style="display:none;padding-top:0"></div>
 
 <!-- FOOTER -->
